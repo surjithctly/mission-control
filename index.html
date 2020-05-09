@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> New Tab by Mission Control</title>
+    <link rel="shortcut icon" href="icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="static/css/tailwind.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="container mx-auto flex flex-row h-screen  items-center justify-center content-center py-6">
+
+
+        <!-- tasks Block -->
+        <div id="tasks"
+            class="hidden bg-white p-5 shadow-md w-1/4 max-h-full overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+
+            <div class="content">
+                <div class="header">
+                    <p class="text-gray-400 tracking-wide">MY TASKS</p>
+
+
+                    <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                        <span
+                            class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </span>
+                        <input type="text" id="todo_title" name="todo_title" placeholder="Add new task..."
+                            class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="content">
+                <div class="ui small feed">
+
+                    <div class="relative" id="showtasklist">
+
+                        <!-- <div class="item flex flex-row align-middle items-middle items-center hover:bg-gray-500"
+                            data-id="">
+
+                            <div
+                                class="checkbox border border-gray-400 rounded-sm w-5 h-5 bg-gray-100 cursor-pointer hover:bg-white">
+                                <svg id="check-icon" class="check-icon" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+
+                            <h3 class="text-xl ml-3 h-8 leading-snug mr-auto truncate"
+                                title="gdsgsghshdh fgsdg  sghdshddhdhd h">agsgsgshh</h3>
+
+                            <div class="remove w-5 h-5-"><a href="#!">
+                                    <svg class="text-gray-400" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </a></div>
+
+
+                        </div> -->
+
+                        <div class="text-center" id="loader">
+                            <div class="w-8 h-8 inline-block">
+                                <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
+                                        viewBox="0 0 50 50">
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
+                                        </circle>
+                                    </svg></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <!-- bookmarks block-->
+        <div id="bookmarks"
+            class="hidden bg-white p-5 shadow-md w-1/4 max-h-full overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+
+            <div class="content">
+                <div class="header">
+                    <p class="text-gray-400 tracking-wide">MY BOOKMARKS</p>
+
+                    <form id="addBookmarkform">
+                        <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                            <span
+                                class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                    </path>
+                                </svg>
+                            </span>
+
+                            <input type="text" required id="bookmark_title" name="bookmark_title"
+                                placeholder="Enter Title"
+                                class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+
+
+
+                        </div>
+
+
+                        <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                            <span
+                                class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
+                                    </path>
+                                </svg>
+                            </span>
+
+                            <input type="url" required id="bookmark_url" name="bookmark_url" placeholder="URL"
+                                class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+
+
+
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" id="addBookmarkBtn"
+                                class="align-middle bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                type="button" style="transition: all .15s ease">
+                                <span class="">
+                                    <svg class="w-4 h-4 inline-block relative -mt-1" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span> Add Website
+                            </button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="content">
+                <div class="ui small feed">
+
+                    <div class="relative" id="showBookmarks">
+
+                        <div class="text-center" id="b_loader">
+                            <div class="w-8 h-8 inline-block">
+                                <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
+                                        viewBox="0 0 50 50">
+                                        <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
+                                        </circle>
+                                    </svg></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+
+        <div id="defaultViewToggle"
+            class="absolute right-0 bottom-0 m-4 w-12 h-12 p-3 bg-blue-500 shadow-sm rounded-full overflow-hidden"
+            data="Toggle View">
+            <a href=" #!" class="text-white">
+
+
+                <!-- Task -->
+
+                <span class="stroke-current hidden" data-pref="tasks"><svg fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                        </path>
+                    </svg></span>
+
+                <!-- Bookmarks -->
+                <span class="stroke-current hidden" data-pref="bookmarks"><svg fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                    </svg></span>
+
+            </a>
+
+
+
+        </div>
+
+
+
+
+    </div>
+    <script src="static/js/jquery-3.5.0.min.js"></script>
+    <script src="static/js/settings.js"></script>
+    <!-- <script src="static/js/alpine.min.js"></script> -->
+    <script src="static/js/tasks.js"></script>
+    <script src="static/js/bookmarks.js"></script>
+</body>
+
+</html>

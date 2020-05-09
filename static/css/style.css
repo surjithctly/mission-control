@@ -1,0 +1,87 @@
+/* h1.ui.center.header {
+    margin-top: 3em;
+}
+
+.completed label {
+    opacity: 0.5;
+    text-decoration: line-through;
+} */
+
+
+.spinner {
+    animation: rotate 2s linear infinite;
+}
+
+.spinner .path {
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+}
+
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 150;
+        stroke-dashoffset: 0;
+    }
+
+    50% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -35;
+    }
+
+    100% {
+        stroke-dasharray: 90, 150;
+        stroke-dashoffset: -124;
+    }
+}
+
+.check-icon {
+    display: none;
+}
+
+.completed .check-icon {
+    display: block;
+}
+
+.completed {
+    text-decoration: line-through;
+    opacity: 0.3;
+}
+
+.scrolling-touch {
+    -webkit-overflow-scrolling: touch !important;
+}
+
+
+.scrollbar-none {
+    scrollbar-width: none
+}
+
+.scrollbar-none::-webkit-scrollbar {
+    display: none !important
+}
+
+.scrollbar-w-2::-webkit-scrollbar {
+    width: .5rem !important;
+    height: .5rem !important
+}
+
+.scrollbar-track-gray-lighter::-webkit-scrollbar-track {
+    background-color: #FFF !important
+}
+
+.scrollbar-thumb-gray::-webkit-scrollbar-thumb {
+    --bg-opacity: 0.5 !important;
+    background-color: #cbd5e0 !important;
+    background-color: rgba(203, 213, 224, var(--bg-opacity)) !important
+}
+
+.scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
+    border-radius: .25rem !important
+}
