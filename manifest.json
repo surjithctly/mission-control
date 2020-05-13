@@ -2,7 +2,7 @@
     "name": "Mission Control - New Tab Launcher",
     "version": "1.0",
     "description": "Make your new tab a launch console.",
-    "permissions": ["storage", "tabs", "bookmarks", "topSites"],
+    "permissions": ["storage", "tabs", "bookmarks", "topSites", "<all_urls>"],
     "manifest_version": 2,
     "short_name": "Mission Control",
     "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
