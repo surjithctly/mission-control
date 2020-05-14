@@ -340,8 +340,19 @@
   <p class="text-gray-500   text-lg tracking-wide mr-auto">${card_title}</p>
   <a href="#!" class="modal-open js__add_bookmark my-1 block w-6 h-6 p-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden text-white" title="Add New Bookmark">
   <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg> </span></a>
-  <a href="#!" class="ml-2 my-1 block w-6 h-6  bg-white   shadow-sm rounded-full overflow-hidden text-gray-400 hover:text-indigo-400" title="Add New Bookmark">
-  <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></span></a>
+  <div class="relative">
+  <a href="#!" class="js__card_settings ml-2 my-1 block w-6 h-6  bg-white   shadow-sm rounded-full overflow-hidden text-gray-400 hover:text-indigo-400" title="Card Settings">
+  <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+  </span>
+  </a>
+  <div class="js__card_menu hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded-lg shadow-xl">
+      <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"> <span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg></span>  Star this Card</a>
+      <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"><span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> </span> Rename Card</a>
+      <a href="#" class="js__delete_card block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"> <span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></span>Delete this Card</a>
+    </div>
+    
+    </div>
+
   </div>
 
   <div class="content">
@@ -504,7 +515,7 @@ data-id="${bookmarks_id}">
   // Remove Bookmark Items
   // ---
 
-  $("#bookmark_cards").on("click", "a", function () {
+  $("#bookmark_cards").on("click", ".remove", function () {
     var chosenID = $(this).closest(".item").data("id");
     var catID = $(this).closest(".js__bookamrk_card").data("card");
     removeItem(chosenID, catID);
@@ -623,7 +634,7 @@ data-id="${bookmarks_id}">
         id: 1,
         cid: randHex(24),
         date: new Date().getTime(),
-        websites: {},
+        websites: [],
       };
       storage[carddb].push(newCat);
       console.log("adding New Category");
@@ -655,5 +666,57 @@ data-id="${bookmarks_id}">
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+  }
+
+  // Card Dropdown
+
+  $("#bookmark_cards").on("click", ".js__card_settings", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(".js__card_menu").not($(this).next(".js__card_menu")).addClass("hidden");
+    $(this).next(".js__card_menu").toggleClass("hidden");
+  });
+
+  $(document).on("click", function (e) {
+    $(".js__card_menu").addClass("hidden");
+  });
+
+  $("#bookmark_cards").on("click", ".js__delete_card", function (e) {
+    var $this = $(this).closest(".js__bookamrk_card");
+    var cardid = $($this).data("card");
+    var totalsites = $(".item", $this).length;
+    if (
+      confirm(
+        "Are you sure you want to delete this card?\nIt contains " +
+          totalsites +
+          " websites.\nThere's no UNDO!"
+      )
+    ) {
+      removeCards(cardid);
+    } else {
+    }
+  });
+
+  // Remove Card & its Contents
+
+  function removeCards(cardid) {
+    console.log("removeitem");
+    chrome.storage.sync.get([carddb], function (storage) {
+      var siteList = storage[carddb];
+      console.log(siteList);
+      var siteList = $.grep(siteList, function (e) {
+        // console.log(e.id);
+        return e.cid != cardid;
+      });
+      console.log(siteList);
+      //   tasksList = storage[dbName];
+      //   tasksList.splice(itemIndex, 1);
+      //   console.log("new list", tasksList);
+
+      chrome.storage.sync.set({ [carddb]: siteList }, function () {
+        console.log(siteList);
+        $('.js__bookamrk_card[data-card="' + cardid + '"]').remove();
+      });
+    });
   }
 })();
