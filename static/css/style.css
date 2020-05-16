@@ -78,8 +78,8 @@
 
 .scrollbar-thumb-gray::-webkit-scrollbar-thumb {
     --bg-opacity: 0.5 !important;
-    background-color: #cbd5e0 !important;
-    background-color: rgba(203, 213, 224, var(--bg-opacity)) !important
+    background-color: #FFF !important;
+    /* background-color: rgba(203, 213, 224, var(--bg-opacity)) !important*/
 }
 
 .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
@@ -97,3 +97,67 @@
 .h-25 {
     height: 25rem;
 }
+
+.pt-05 {
+    padding-top: .10rem
+}
+
+.remove {
+    display: none;
+}
+
+.item:hover .remove {
+    display: block;
+}
+
+.item__is__dragging {
+    background-color: #edf2f7;
+}
+
+.item__is__dragging * {
+    opacity: 0;
+}
+
+/* 
+.js__bookamrk_card::-webkit-scrollbar {
+    opacity: 0;
+    display: none;
+} */
+
+/* .js__bookamrk_card:hover::-webkit-scrollbar {
+    opacity: 1;
+    display: initial;
+} */
+
+
+.overflow__block.scrollbar-thumb-gray:hover::-webkit-scrollbar-thumb {
+    --bg-opacity: 0.5 !important;
+    background-color: #cbd5e0 !important;
+    background-color: rgba(203, 213, 224, var(--bg-opacity)) !important
+}
+
+.js__bookamrk_card:after {
+    content: '';
+    width: 100%;
+    height: 70px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(transparent 0, white 95%);
+    opacity: 1;
+    pointer-events: none;
+    transition: all ease 0.2s;
+}
+
+.js__bookamrk_card:hover::after {
+    opacity: 0;
+}
+
+
+/* .card__actions {
+    display: none;
+}
+
+.js__bookamrk_card:hover .card__actions {
+    display: inherit;
+} */

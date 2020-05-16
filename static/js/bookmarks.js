@@ -15,164 +15,6 @@
     return r;
   };
 
-  //   var storage = {};
-  var dbName = "bookmarks";
-  var bookmarks = new Array();
-  chrome.storage.sync.get(dbName, function (storage) {
-    if (dbName in storage) {
-      bookmarks = storage[dbName];
-      $("#b_loader").hide();
-    } else {
-      storage = {};
-      storage[dbName] = [];
-
-      chrome.topSites.get((arr) => {
-        // console.log(arr);
-
-        for (var i = 0; i < arr.length; i++) {
-          //  console.log(arr[i].title);
-          //Do something
-          var newItem = {
-            title: arr[i].title,
-            category: "Top Sites",
-            id: randHex(24),
-            date: new Date().getTime(),
-            url: arr[i].url,
-          };
-          storage[dbName].push(newItem);
-          bookmarks.push(newItem);
-          // display after adding top sites for first time
-          addBookmarkItem(arr[i]);
-        }
-
-        chrome.storage.sync.set(storage, function () {}.bind(this));
-        $("#b_loader").hide();
-
-        console.log(bookmarks);
-      });
-    }
-
-    //displaying the old items
-    for (var i = 0; i < bookmarks.length; i++) {
-      addBookmarkItem(bookmarks[i]);
-    }
-  });
-
-  const bookTemplate = ({
-    bookmarks_id,
-    bookmarks_category,
-    bookmarks_title,
-    bookmarks_url,
-  }) => `
-
-  <div class="item flex flex-row align-middle items-middle items-center hover:bg-gray-100 py-1 -mx-5 px-5 ${bookmarks_category}"
-  data-id="${bookmarks_id}">
-
-  <div
-      class="w-5 h-5 bg-gray-100 cursor-pointer hover:bg-white"> 
-  
-  <img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${bookmarks_url}" alt="">  
-  </div>
-
-  <a href="${bookmarks_url}" target="_blank" id="js--bookmarks__title" class="flex-1 text-xl ml-3 h-8 leading-snug mr-auto truncate"
-      title="${bookmarks_title}"> <span class="title">${bookmarks_title} </span>  <span class="link text-sm text-blue-500 hidden">
-      ${bookmarks_url} </span>   </a>
-
-  <div class="remove w-5 h-5-"><a href="#!">
-          <svg class="text-gray-400" fill="none" stroke-linecap="round"
-              stroke-linejoin="round" stroke-width="2" stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-      </a></div>
-
-
-</div>
-
-
-`;
-
-  function alersst(param) {
-    alert("ok");
-  }
-
-  function addBookmarkItem(bookmarks) {
-    $("#showBookmarks").prepend(
-      [
-        {
-          bookmarks_id: bookmarks.id,
-          bookmarks_category: bookmarks.category,
-          bookmarks_title: bookmarks.title,
-          bookmarks_url: bookmarks.url,
-        },
-      ]
-        .map(bookTemplate)
-        .join("")
-    );
-
-    $("#b_loader").hide();
-  }
-
-  $("#showBookmarks").on("mouseenter", "#js--bookmarks__title", function (e) {
-    $("span.title", this).addClass("hidden");
-    $("span.link", this).removeClass("hidden");
-  });
-  $("#showBookmarks").on("mouseleave", "#js--bookmarks__title", function (e) {
-    $("span.link", this).addClass("hidden");
-    $("span.title", this).removeClass("hidden");
-  });
-
-  // Process Chrome Bookmarks as Folder
-
-  function process_bookmark(bookmarks, folder) {
-    console.log(bookmarks);
-    for (var i = 0; i < bookmarks.length; i++) {
-      var bookmark = bookmarks[i];
-      if (bookmark.url) {
-        console.log(
-          "bookmark: " +
-            folder +
-            " =  " +
-            bookmark.title +
-            " ~  " +
-            bookmark.url
-        );
-      }
-
-      if (bookmark.children) {
-        process_bookmark(bookmark.children, bookmark.title);
-      }
-    }
-  }
-
-  // chrome.bookmarks.getTree(process_bookmark);
-
-  function getTopSites() {
-    var bookmarks = new Array();
-
-    chrome.topSites.get((arr) => {
-      // console.log(arr);
-
-      for (var i = 0; i < arr.length; i++) {
-        //  console.log(arr[i].title);
-        //Do something
-        var newItem = {
-          title: arr[i].title,
-          category: "General",
-          id: randHex(24),
-          date: new Date().getTime(),
-          url: arr[i].url,
-        };
-        bookmarks.push(newItem);
-      }
-
-      //console.log(bookmarks);
-      return bookmarks;
-    });
-  }
-
-  getTopSites();
-
   // END ///// Process Chrome Bookmarks as Folder
 
   $("#bookmark_url").on("keyup change paste input", function (e) {
@@ -181,29 +23,6 @@
       // $("#bookmarkMoreForm").removeClass("hidden");
       var url_result = validURL(this.value);
       if (url_result) {
-        // var xhr = new XMLHttpRequest();
-        // xhr.open("GET", url_result, true);
-        // xhr.onreadystatechange = function () {
-        //   if (xhr.readyState == 4) {
-        //     // JSON.parse does not evaluate the attacker's scripts.
-        //     var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText);
-        //     console.log(title);
-        //   }
-        // };
-        // xhr.send();
-
-        // $(url_result)
-        //   .promise()
-        //   .done(function () {
-        //     console.log(url_result);
-        //     getTitlefromURL(url_result);
-        //   });
-
-        // url_result.then(function (url_result) {
-        //   console.log(url_result);
-        // });
-        // doAjax(url_result);
-
         // Function declared as async so await can be used
         async function fetchContent() {
           // Instead of using fetch().then, use await
@@ -219,22 +38,6 @@
 
         // Use the async function
         var promise = fetchContent();
-
-        // const run = async () => {
-        //   const url_result = await url_result;
-        //   getTitlefromURL(url_result);
-        // };
-
-        // getTitlefromURL(url_result);
-
-        // $.ajax({
-        //   url: "https://developer.chrome.com/extensions/runtime",
-        //   async: true,
-        //   success: function (data) {
-        //     var matches = data.match(/<title>(.*?)<\/title>/);
-        //     alert(matches[0]);
-        //   },
-        // });
       }
     } else {
       //  $("#bookmarkMoreForm").addClass("hidden");
@@ -280,65 +83,22 @@
   }
 
   function addTitletoDom(title) {
-    if ($("#bookmark_title").val() === "") {
+    if ($("#bookmark_title").val() === "" && $("#bookmark_url").val() !== "") {
       $("#bookmark_title").val(title);
       // console.log(this.value);
     }
   }
 
-  $("#showBookmarks").on("click", "a", function () {
-    var chosenID = $(this).closest(".item").data("id");
-    removeItem(chosenID);
-    $(this).closest(".item").remove();
-    console.log(chosenID);
-  });
-
-  function removeItem(chosenID) {
-    console.log("removeitem");
-    chrome.storage.sync.get([dbName], function (storage) {
-      var tasksList = storage[dbName];
-      var NewtasksList = $.grep(tasksList, function (e) {
-        // console.log(e.id);
-        return e.id != chosenID;
-      });
-      console.log(NewtasksList);
-      //   tasksList = storage[dbName];
-      //   tasksList.splice(itemIndex, 1);
-      //   console.log("new list", tasksList);
-
-      chrome.storage.sync.set({ [dbName]: NewtasksList }, function () {
-        console.log(NewtasksList);
-      });
-    });
-  }
-
-  // async function doAjax(url_result) {
-  //   let result;
-
-  //   try {
-  //     result = await getTitlefromURL(url_result);
-
-  //     return result;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  // chrome.runtime.sendMessage(
-  //   {contentScriptQuery: "queryPrice", itemId: 12345},
-  //   price => ...);
-
-  // end fn
-
   const newCardTemplate = ({ card_title, card_id, websites }) => `
 
   <div
-  class="js__bookamrk_card m-5 bg-white p-5 shadow-md w-1/5 h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch" data-card="${card_id}">
+  class="js__bookamrk_card relative m-5 bg-white shadow-md w-1/5 " data-card="${card_id}">
 
-  
+  <div class="overflow__block  p-5  h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
   <div class="header flex  items-center mb-3 ">
   <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
   <p class="px-1 py-1 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
+  <div class="card__actions flex">
   <a href="#!" class="modal-open js__add_bookmark my-1 block w-6 h-6 p-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden text-white" title="Add New Bookmark">
   <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg> </span></a>
   <div class="relative">
@@ -354,32 +114,40 @@
     
     </div>
 
+    </div>
+
   </div>
 
   <div class="content">
   ${websites}
   </div>
 
-
+  </div>
+ 
 </div>
 
 
 `;
 
-  const bookmarklist = ({ bookmarks_id, bookmarks_title, bookmarks_url }) => `
+  const bookmarklist = ({
+    bookmarks_id,
+    bookmarks_title,
+    bookmarks_url,
+    bookmarks_desc,
+  }) => `
 
 <div class="item flex flex-row align-middle items-middle items-center hover:bg-gray-100 py-1 -mx-5 px-5"
 data-id="${bookmarks_id}">
 
 <div
-    class="w-5 h-5 bg-gray-100 cursor-pointer hover:bg-white"> 
+    class="w-5 h-5 pt-05 "> 
 
 <img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${bookmarks_url}" alt="">  
 </div>
 
-<a href="${bookmarks_url}" target="_blank" class="js--bookmarks__title flex-1 text-xl ml-3 h-8 leading-snug mr-auto truncate"
-    title="${bookmarks_title}"> <span class="title">${bookmarks_title} </span>  <span class="link text-sm text-blue-500 hidden">
-    ${bookmarks_url} </span>   </a>
+<a href="${bookmarks_url}" target="_blank" class="js--bookmarks__title flex-1 text-sm ml-3 h-5 leading-snug mr-auto truncate"
+    title="${bookmarks_desc}"> <span class="title">${bookmarks_title} </span>  <span class="link text-sm text-blue-500 hidden">
+    ${bookmarks_url} </span>  <span class="bookmark__desc hidden">${bookmarks_desc}</span> </a>
 
 <div class="remove w-5 h-5-"><a href="#!">
         <svg class="text-gray-400" fill="none" stroke-linecap="round"
@@ -387,9 +155,7 @@ data-id="${bookmarks_id}">
             viewBox="0 0 24 24">
             <path d="M6 18L18 6M6 6l12 12"></path>
         </svg>
-    </a></div>
-
-
+    </a></div> 
 </div>
 
 
@@ -449,7 +215,14 @@ data-id="${bookmarks_id}">
         }
         console.log(storage);
 
-        chrome.storage.sync.set(storage, function () {}.bind(this));
+        chrome.storage.sync.set(
+          storage,
+          function () {
+            for (var i = 0; i < topbook.length; i++) {
+              addSiteCards(topbook[i]);
+            }
+          }.bind(this)
+        );
       });
     }
 
@@ -469,7 +242,7 @@ data-id="${bookmarks_id}">
 
     // }
 
-    $("#bookmark_cards").prepend(
+    $("#bookmark_cards").append(
       [
         {
           card_title: cardarray.label,
@@ -484,8 +257,7 @@ data-id="${bookmarks_id}">
 
   function addSiteLists(websites) {
     var websitelist = "";
-    console.log("websites");
-    console.log(websitelist);
+    // console.log("websites");
     for (var i = 0; i < websites.length; i++) {
       //addSiteCards(cardarray[i]);
       websitelist =
@@ -494,6 +266,7 @@ data-id="${bookmarks_id}">
             bookmarks_id: websites[i].id,
             bookmarks_title: websites[i].title,
             bookmarks_url: websites[i].url,
+            bookmarks_desc: websites[i].desc,
           },
         ]
           .map(bookmarklist)
@@ -605,6 +378,7 @@ data-id="${bookmarks_id}">
               bookmarks_id: newItem.id,
               bookmarks_title: newItem.title,
               bookmarks_url: newItem.url,
+              bookmarks_desc: newItem.desc,
             },
           ]
             .map(bookmarklist)
@@ -637,10 +411,10 @@ data-id="${bookmarks_id}">
         date: new Date().getTime(),
         websites: [],
       };
-      storage[carddb].push(newCat);
+      storage[carddb].unshift(newCat);
       console.log("adding New Category");
       console.log(storage);
-      $("#addNewBookmarkUI").before(
+      $("#addNewBookmarkUI").after(
         [
           {
             card_title: newCat.label,
@@ -804,4 +578,108 @@ data-id="${bookmarks_id}">
       });
     });
   }
+
+  // Search Bookmarks
+
+  function searchWebsites() {
+    var $input = $("input[name='search']"),
+      $context = $("#bookmark_cards");
+    $input.on("input", function () {
+      var term = $(this).val();
+      console.log($context);
+      $context.find(".js__bookamrk_card .item").show().unmark();
+      $context.find(".js__bookamrk_card").show().unmark();
+      if (term) {
+        $context.mark(term, {
+          done: function () {
+            $context.find(".js__bookamrk_card .item").not(":has(mark)").hide();
+            $context.find(".js__bookamrk_card").not(":has(mark)").hide();
+
+            // $context.not(":has(mark)").hide();
+          },
+        });
+      }
+    });
+  }
+
+  searchWebsites();
+
+  // SORT or RE-ORDER CARDS
+
+  //const event1 = { newIndex: 1, oldIndex: 0 };
+  //var originalArray;
+
+  function sortSiteCards(newindex, oldindex) {
+    chrome.storage.sync.get([carddb], function (storage) {
+      const originalArray = storage[carddb];
+      const event1 = { newIndex: newindex, oldIndex: oldindex };
+      console.log(originalArray);
+      var newCardorder = reorderArray(event1, originalArray);
+      chrome.storage.sync.set({ [carddb]: newCardorder }, function () {
+        console.log(newCardorder);
+      });
+    });
+  }
+
+  const reorderArray = (event, originalArray) => {
+    const movedItem = originalArray.filter(
+      (item, index) => index === event.oldIndex
+    );
+    const remainingItems = originalArray.filter(
+      (item, index) => index !== event.oldIndex
+    );
+
+    const reorderedItems = [
+      ...remainingItems.slice(0, event.newIndex),
+      movedItem[0],
+      ...remainingItems.slice(event.newIndex),
+    ];
+
+    return reorderedItems;
+  };
+
+  var el = document.getElementById("bookmark_cards");
+  var sortable = Sortable.create(el, {
+    draggable: ".js__bookamrk_card",
+    filter: ".card__actions",
+    animation: 150,
+    ghostClass: "item__is__dragging",
+    forceFallback: true,
+    onEnd: function (/**Event*/ evt) {
+      console.log("newidex:" + (evt.oldIndex - 1));
+      console.log("newidex:" + (evt.newIndex - 1));
+      var newIndex = evt.newIndex - 1;
+      var oldIndex = evt.oldIndex - 1;
+      sortSiteCards(newIndex, oldIndex);
+      // same properties as onEnd
+    },
+  });
+
+  // Process Current Chrome Bookmarks as Folder
+  // Todo for later
+
+  function process_bookmark(bookmarks, folder) {
+    console.log(bookmarks);
+    for (var i = 0; i < bookmarks.length; i++) {
+      var bookmark = bookmarks[i];
+      if (bookmark.url) {
+        console.log(
+          "bookmark: " +
+            folder +
+            " =  " +
+            bookmark.title +
+            " ~  " +
+            bookmark.url
+        );
+      }
+
+      if (bookmark.children) {
+        process_bookmark(bookmark.children, bookmark.title);
+      }
+    }
+  }
+
+  // chrome.bookmarks.getTree(process_bookmark);
+
+  // process bookmarke
 })();
