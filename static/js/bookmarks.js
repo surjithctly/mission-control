@@ -337,7 +337,8 @@
 
   
   <div class="header flex  items-center mb-3 ">
-  <p class="text-gray-500   text-lg tracking-wide mr-auto">${card_title}</p>
+  <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
+  <p class="px-1 py-1 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
   <a href="#!" class="modal-open js__add_bookmark my-1 block w-6 h-6 p-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden text-white" title="Add New Bookmark">
   <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg> </span></a>
   <div class="relative">
@@ -347,7 +348,7 @@
   </a>
   <div class="js__card_menu hidden absolute right-0 mt-2 py-2 w-48 bg-white border rounded-lg shadow-xl">
       <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"> <span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg></span>  Star this Card</a>
-      <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"><span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> </span> Rename Card</a>
+      <a href="#" class="js__rename_card block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"><span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg> </span> Rename Card</a>
       <a href="#" class="js__delete_card block px-4 py-2 text-gray-800 hover:bg-indigo-500 hover:text-white"> <span><svg class="inline text-gray-400 stroke-current w-4 h-4 -mt-1 mr-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg></span>Delete this Card</a>
     </div>
     
@@ -657,6 +658,16 @@ data-id="${bookmarks_id}">
           console.log("cat added to db");
         }.bind(this)
       );
+
+      var $recentcard = $("#bookmark_cards").find(
+        '.js__bookamrk_card[data-card="' + newCat.cid + '"]'
+      );
+      $recentcard.find(".js__card_title_text").addClass("hidden");
+      $recentcard
+        .find(".js__card_title_input")
+        .removeClass("hidden")
+        .focus()
+        .select();
     });
   });
 
@@ -716,6 +727,80 @@ data-id="${bookmarks_id}">
       chrome.storage.sync.set({ [carddb]: siteList }, function () {
         console.log(siteList);
         $('.js__bookamrk_card[data-card="' + cardid + '"]').remove();
+      });
+    });
+  }
+
+  //  RENAME CARD LABEL
+
+  $("#bookmark_cards").on("click", ".js__rename_card", function (e) {
+    var $closestcard = $(this).closest(".js__bookamrk_card");
+    $closestcard.find(".js__card_title_text").addClass("hidden");
+    $closestcard.find(".js__card_title_input").removeClass("hidden").focus();
+  });
+
+  $("#bookmark_cards").on("click", ".js__card_title_text", function (e) {
+    var $closestcard = $(this).closest(".js__bookamrk_card");
+    $closestcard.find(".js__card_title_text").addClass("hidden");
+    $closestcard.find(".js__card_title_input").removeClass("hidden").focus();
+  });
+
+  $("#bookmark_cards").on("keypress", ".js__card_title_input", function (e) {
+    var cardtitle = $(this).val();
+    var curcardval = $(this).next(".js__card_title_text").text();
+    var catid = $(this).closest(".js__bookamrk_card").data("card");
+    if (e.which == 13 && cardtitle !== "") {
+      e.preventDefault();
+      if (curcardval !== cardtitle) {
+        changeCardTitle(cardtitle, catid);
+        console.log(cardtitle);
+      }
+      $(this).addClass("hidden");
+      $(this)
+        .next(".js__card_title_text")
+        .text(cardtitle)
+        .removeClass("hidden");
+    }
+  });
+
+  $("#bookmark_cards").on("blur", ".js__card_title_input", function (e) {
+    var cardtitle = $(this).val();
+    var curcardval = $(this).next(".js__card_title_text").text();
+    var catid = $(this).closest(".js__bookamrk_card").data("card");
+    if (curcardval !== cardtitle) {
+      changeCardTitle(cardtitle, catid);
+      console.log(cardtitle);
+    }
+    $(this).addClass("hidden");
+    $(this).next(".js__card_title_text").text(cardtitle).removeClass("hidden");
+  });
+
+  // $("#bookmark_cards").on("blur", ".js__card_title_input", function (e) {
+  //   $(this).addClass("hidden");
+  //   $(this).next(".js__card_title_text").removeClass("hidden");
+  // });
+
+  function changeCardTitle(cardtitle, catid) {
+    console.log("cardtitle: " + cardtitle);
+
+    chrome.storage.sync.get([carddb], function (storage) {
+      var siteList = storage[carddb];
+
+      for (let key in siteList) {
+        if (siteList.hasOwnProperty(key)) {
+          if (catid === siteList[key].cid) {
+            if (cardtitle === siteList[key].label) {
+              // do nothing
+            } else {
+              siteList[key].label = cardtitle;
+            }
+            break;
+          }
+        }
+      }
+
+      chrome.storage.sync.set({ [carddb]: siteList }, function () {
+        console.log(siteList);
       });
     });
   }
