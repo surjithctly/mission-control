@@ -92,7 +92,7 @@
   const newCardTemplate = ({ card_title, card_id, websites }) => `
 
   <div
-  class="js__bookamrk_card relative m-5 bg-white shadow-md w-1/5 " data-card="${card_id}">
+  class="js__bookamrk_card relative m-5 bg-white shadow-md w-1/5  h-25" data-card="${card_id}">
 
   <div class="overflow__block  p-5  h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
   <div class="header flex  items-center mb-3 ">
