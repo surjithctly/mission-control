@@ -150,28 +150,57 @@
     </div>
 
 
-    <div id="defaultViewToggle"
-        class="fixed right-0 bottom-0 m-4 w-12 h-12 p-3 bg-indigo-500 shadow-sm rounded-full overflow-hidden"
-        data="Toggle View">
-        <a href=" #!" class="text-white">
+    <div class="fixed right-0 bottom-0 m-4 flex">
+        <a class="link-to-download" href="download" download="export.json"></a>
+
+        <div id="ExportData" class="w-12 h-12 p-3 m-1 bg-white shadow-sm rounded-full overflow-hidden"
+            data="Export Data">
+            <a class="text-indigo-500" href="#!">
+
+                <span class="stroke-current">
+                    <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        stroke="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M8 16a5 5 0 01-.916-9.916 5.002 5.002 0 019.832 0A5.002 5.002 0 0116 16m-7 3l3 3m0 0l3-3m-3 3V10">
+                        </path>
+                    </svg>
+                </span>
+
+            </a>
 
 
-            <!-- Task -->
 
-            <span class="stroke-current hidden" data-pref="tasks"><svg fill="none" stroke-linecap="round"
-                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
-                    <path
-                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                    </path>
-                </svg></span>
+        </div>
 
-            <!-- Bookmarks -->
-            <span class="stroke-current hidden" data-pref="bookmarks"><svg fill="none" stroke-linecap="round"
-                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
-                    <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
-                </svg></span>
 
-        </a>
+
+        <div id="defaultViewToggle" class="w-12 h-12 p-3 m-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden"
+            data="Toggle View">
+            <a href=" #!" class="text-white">
+
+
+                <!-- Task -->
+
+                <span class="stroke-current hidden" data-pref="tasks"><svg fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
+                        <path
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
+                        </path>
+                    </svg></span>
+
+                <!-- Bookmarks -->
+                <span class="stroke-current hidden" data-pref="bookmarks"><svg fill="none" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
+                        <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                    </svg></span>
+
+            </a>
+
+
+
+        </div>
+
+
 
 
 

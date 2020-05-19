@@ -167,7 +167,7 @@ data-id="${bookmarks_id}">
 
   var cardarray = new Array();
 
-  chrome.storage.sync.get(carddb, function (storage) {
+  chrome.storage.local.get(carddb, function (storage) {
     if (carddb in storage) {
       cardarray = storage[carddb];
       console.log(carddb);
@@ -215,7 +215,7 @@ data-id="${bookmarks_id}">
         }
         console.log(storage);
 
-        chrome.storage.sync.set(
+        chrome.storage.local.set(
           storage,
           function () {
             for (var i = 0; i < topbook.length; i++) {
@@ -299,7 +299,7 @@ data-id="${bookmarks_id}">
 
   function removeItem(chosenID, catID) {
     console.log("removeitem");
-    chrome.storage.sync.get([carddb], function (storage) {
+    chrome.storage.local.get([carddb], function (storage) {
       var siteList = storage[carddb];
       console.log(siteList);
 
@@ -326,7 +326,7 @@ data-id="${bookmarks_id}">
 
       //  console.log(siteList);
 
-      chrome.storage.sync.set({ [carddb]: siteList }, function () {
+      chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
       });
     });
@@ -352,7 +352,7 @@ data-id="${bookmarks_id}">
         desc: desc,
       };
       // addBookmarkItem(newItem);
-      chrome.storage.sync.get([carddb], function (storage) {
+      chrome.storage.local.get([carddb], function (storage) {
         var siteList = storage[carddb];
         //bookmarks.push(newItem);
 
@@ -387,7 +387,7 @@ data-id="${bookmarks_id}">
 
         // $("#bookmarkMoreForm").addClass("hidden");
 
-        chrome.storage.sync.set({ [carddb]: siteList }, function () {
+        chrome.storage.local.set({ [carddb]: siteList }, function () {
           console.log(siteList);
         });
       });
@@ -402,7 +402,7 @@ data-id="${bookmarks_id}">
   $("#addNewBookmarkUI").click(function (e) {
     e.preventDefault();
 
-    chrome.storage.sync.get([carddb], function (storage) {
+    chrome.storage.local.get([carddb], function (storage) {
       var newCat = {
         label: "Untitled Group",
         starred: false,
@@ -426,7 +426,7 @@ data-id="${bookmarks_id}">
           .join("")
       );
 
-      chrome.storage.sync.set(
+      chrome.storage.local.set(
         storage,
         function () {
           console.log("cat added to db");
@@ -486,7 +486,7 @@ data-id="${bookmarks_id}">
 
   function removeCards(cardid) {
     console.log("removeitem");
-    chrome.storage.sync.get([carddb], function (storage) {
+    chrome.storage.local.get([carddb], function (storage) {
       var siteList = storage[carddb];
       console.log(siteList);
       var siteList = $.grep(siteList, function (e) {
@@ -498,7 +498,7 @@ data-id="${bookmarks_id}">
       //   tasksList.splice(itemIndex, 1);
       //   console.log("new list", tasksList);
 
-      chrome.storage.sync.set({ [carddb]: siteList }, function () {
+      chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
         $('.js__bookamrk_card[data-card="' + cardid + '"]').remove();
       });
@@ -557,7 +557,7 @@ data-id="${bookmarks_id}">
   function changeCardTitle(cardtitle, catid) {
     console.log("cardtitle: " + cardtitle);
 
-    chrome.storage.sync.get([carddb], function (storage) {
+    chrome.storage.local.get([carddb], function (storage) {
       var siteList = storage[carddb];
 
       for (let key in siteList) {
@@ -573,7 +573,7 @@ data-id="${bookmarks_id}">
         }
       }
 
-      chrome.storage.sync.set({ [carddb]: siteList }, function () {
+      chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
       });
     });
@@ -610,12 +610,12 @@ data-id="${bookmarks_id}">
   //var originalArray;
 
   function sortSiteCards(newindex, oldindex) {
-    chrome.storage.sync.get([carddb], function (storage) {
+    chrome.storage.local.get([carddb], function (storage) {
       const originalArray = storage[carddb];
       const event1 = { newIndex: newindex, oldIndex: oldindex };
       console.log(originalArray);
       var newCardorder = reorderArray(event1, originalArray);
-      chrome.storage.sync.set({ [carddb]: newCardorder }, function () {
+      chrome.storage.local.set({ [carddb]: newCardorder }, function () {
         console.log(newCardorder);
       });
     });

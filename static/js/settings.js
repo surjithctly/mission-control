@@ -3,9 +3,10 @@
 
   var dbName = "settings";
   var settings = new Array();
-  chrome.storage.sync.get(dbName, function (storage) {
+  chrome.storage.local.get(dbName, function (storage) {
     if (dbName in storage) {
       settings = storage[dbName];
+      var preftab = settings[0].defaultTab;
       // $("#b_loader").hide();
     } else {
       storage = {};
@@ -14,12 +15,23 @@
           defaultTab: "tasks",
         },
       ];
-      chrome.storage.sync.set(storage, function () {}.bind(this));
+      chrome.storage.local.set(
+        storage,
+        function () {
+          // console.log("storage");
+          // console.log(storage);
+          // var preftab = settings.defaultTab;
+          // console.log(preftab);
+          // setDefaultView(preftab);
+        }.bind(this)
+      );
+      // console.log("First Settings");
+      settings = storage[dbName];
+      preftab = settings[0].defaultTab;
+      // console.log(preftab);
+      // setDefaultView(preftab);
       // $("#b_loader").hide();
     }
-    console.log(settings);
-    var preftab = settings[0].defaultTab;
-    //displaying the old items
     setDefaultView(preftab);
   });
 
@@ -38,7 +50,7 @@
 
   function changeDefaultView(preftab) {
     console.log("update");
-    chrome.storage.sync.get([dbName], function (storage) {
+    chrome.storage.local.get([dbName], function (storage) {
       var settings = storage[dbName];
 
       for (let key in settings) {
@@ -50,7 +62,7 @@
         }
       }
 
-      chrome.storage.sync.set({ [dbName]: settings }, function () {
+      chrome.storage.local.set({ [dbName]: settings }, function () {
         //console.log(settings);
         setDefaultView(preftab);
       });
@@ -64,4 +76,43 @@
     //console.log(preftab);
     changeDefaultView(preftab);
   });
+
+  $("#ExportData").on("click", function (e) {
+    // chrome.storage.local.get(carddb, function (storage) {
+    //   if (carddb in storage) {
+    //     cardarray = storage[carddb];
+
+    // this.href = "data:application/json," + escape(JSON.stringify(localStorage));
+
+    //   });
+
+    chrome.storage.local.get(null, function (storage) {
+      // null implies all items
+      // Convert object to a string.
+      //  var result = JSON.stringify(storage);
+
+      // Save as file
+      // var url =        "data:application/json;base64," + escape(JSON.stringify(storage));
+      // chrome.downloads.download({
+      //   url: url,
+      //   filename: "mc_bkp.json",
+      // });
+
+      var href = "data:application/json," + escape(JSON.stringify(storage));
+      $(".link-to-download").attr("href", href);
+      $(".link-to-download").attr(
+        "download",
+        `mission_backup_${Date.now()}.json`
+      );
+      $(".link-to-download")[0].click();
+      //  e.stopPropagation();
+    });
+  });
+
+  // document.querySelector(".link-to-download").addEventListener(function () {
+  //   chrome.storage.local.get(null, function (storage) {
+  //     this.href = "data:application/json," + escape(JSON.stringify(storage));
+  //     console.log(this.href);
+  //   });
+  // });
 })();

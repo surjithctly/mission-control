@@ -9,16 +9,16 @@
       }
     );
   });
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://yahoo.com/", true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4) {
-      // JSON.parse does not evaluate the attacker's scripts.
-      var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
-      console.log(title);
-    }
-  };
-  xhr.send();
+  // var xhr = new XMLHttpRequest();
+  // xhr.open("GET", "https://yahoo.com/", true);
+  // xhr.onreadystatechange = function () {
+  //   if (xhr.readyState == 4) {
+  //     // JSON.parse does not evaluate the attacker's scripts.
+  //     var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
+  //     console.log(title);
+  //   }
+  // };
+  // xhr.send();
 
   // chrome.runtime.onMessage.addListener(
   //   function(request, sender, sendResponse) {

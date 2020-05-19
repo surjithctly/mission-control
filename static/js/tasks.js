@@ -2,26 +2,26 @@
   "use strict";
 
   //   chrome.runtime.onInstalled.addListener(function () {
-  //     chrome.storage.sync.set({ color: "#3aa757" }, function () {
+  //     chrome.storage.local.set({ color: "#3aa757" }, function () {
   //       console.log("The color is green.");
   //     });
   //   });
 
   //   storage["todo_list"] = { todos: [] };
 
-  //   chrome.storage.sync.get(dbName, function (storage) {
+  //   chrome.storage.local.get(dbName, function (storage) {
   //     // optional callback
   //     console.log(d);
   //     if (dbName in storage) {
   //     }
   //   });
 
-  //   chrome.storage.sync.get(dbName, function (storage) {
+  //   chrome.storage.local.get(dbName, function (storage) {
   //     var todos = storage[dbName];
   //   });
 
   //   if (storage["todo_list"]) {
-  //     chrome.storage.sync.set(storage, function () {
+  //     chrome.storage.local.set(storage, function () {
   //       // optional callback
   //       console.log("ok");
   //     });
@@ -31,14 +31,14 @@
   //   var storage = {};
   var dbName = "todo_list";
   var tasksList = new Array();
-  chrome.storage.sync.get(dbName, function (storage) {
+  chrome.storage.local.get(dbName, function (storage) {
     if (dbName in storage) {
       tasksList = storage[dbName];
       $("#loader").hide();
     } else {
       storage = {};
       storage[dbName] = [];
-      chrome.storage.sync.set(storage, function () {}.bind(this));
+      chrome.storage.local.set(storage, function () {}.bind(this));
       $("#loader").hide();
     }
     console.log(tasksList);
@@ -65,7 +65,7 @@
       //reset value
       $("#todo_title").val("");
 
-      chrome.storage.sync.set({ [dbName]: tasksList }, function () {
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
         console.log(tasksList);
       });
 
@@ -147,7 +147,7 @@
 
   function removeItem(chosenID) {
     console.log("removeitem");
-    chrome.storage.sync.get([dbName], function (storage) {
+    chrome.storage.local.get([dbName], function (storage) {
       var tasksList = storage[dbName];
       var NewtasksList = $.grep(tasksList, function (e) {
         // console.log(e.id);
@@ -158,7 +158,7 @@
       //   tasksList.splice(itemIndex, 1);
       //   console.log("new list", tasksList);
 
-      chrome.storage.sync.set({ [dbName]: NewtasksList }, function () {
+      chrome.storage.local.set({ [dbName]: NewtasksList }, function () {
         console.log(NewtasksList);
       });
     });
@@ -166,7 +166,7 @@
 
   function updateItem(chosenID) {
     console.log("update");
-    chrome.storage.sync.get([dbName], function (storage) {
+    chrome.storage.local.get([dbName], function (storage) {
       var tasksList = storage[dbName];
 
       for (let key in tasksList) {
@@ -182,7 +182,7 @@
         }
       }
 
-      chrome.storage.sync.set({ [dbName]: tasksList }, function () {
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
         console.log(tasksList);
       });
     });
@@ -201,7 +201,7 @@
   function changeTitle(newTitle, chosenID) {
     console.log("newTitle: " + newTitle);
 
-    chrome.storage.sync.get([dbName], function (storage) {
+    chrome.storage.local.get([dbName], function (storage) {
       var tasksList = storage[dbName];
 
       for (let key in tasksList) {
@@ -217,7 +217,7 @@
         }
       }
 
-      chrome.storage.sync.set({ [dbName]: tasksList }, function () {
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
         console.log(tasksList);
       });
     });
@@ -256,7 +256,7 @@
   //     console.log("storing!");
   //     callback = callback || function () {};
 
-  //     chrome.storage.sync.get(
+  //     chrome.storage.local.get(
   //       dbName,
   //       function (storage) {
   //         if (dbName in storage) {
@@ -269,7 +269,7 @@
   //           storage = {};
   //           storage[dbName] = { todos: [] };
   //           console.log("nope!");
-  //           chrome.storage.sync.set(
+  //           chrome.storage.local.set(
   //             storage,
   //             function () {
   //               callback.call(this, storage[dbName].todos);
@@ -282,7 +282,7 @@
 
   //   function saveTodos(newItem, todos) {
   //     todos.push(newItem);
-  //     chrome.storage.sync.set(
+  //     chrome.storage.local.set(
   //       storage,
   //       function () {
   //           //callback.call(this, [newItem]);
@@ -295,10 +295,10 @@
 
   //   function testChromeStorage() {
   //     console.log("Saving");
-  //     chrome.storage.sync.set({ value: "theValue" }, function () {
+  //     chrome.storage.local.set({ value: "theValue" }, function () {
   //       console.log("Settings saved");
   //     });
-  //     chrome.storage.sync.get("value", function (retVal) {
+  //     chrome.storage.local.get("value", function (retVal) {
   //       console.log("Got it? " + retVal.value);
   //     });
   //     }
