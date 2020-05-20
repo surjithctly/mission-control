@@ -1,13 +1,6 @@
 (function () {
   "use strict";
 
-  $(document).on("click", ".js__add_bookmark", function (e) {
-    e.preventDefault();
-    var catID = $(this).closest(".js__bookamrk_card").data("card");
-    $("#addBookmarkform #category_id").val(catID);
-    toggleModal();
-  });
-
   const overlay = document.querySelector(".modal-overlay");
   overlay.addEventListener("click", toggleModal);
 
@@ -29,7 +22,7 @@
     }
   };
 
-  function toggleModal(catID) {
+  function toggleModal() {
     const body = document.querySelector("body");
     const modal = document.querySelector(".modal");
     modal.classList.toggle("opacity-0");

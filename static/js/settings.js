@@ -124,4 +124,50 @@
   //     console.log(this.href);
   //   });
   // });
+
+  /*
+   *
+   * Export To Github Gists
+   *
+   */
+
+  function exportToGithub() {
+    chrome.storage.local.get(null, function (storage) {
+      const gituser = "surjithctly";
+      const gittoken = "5e97e28ff403ca3789507a8894ebada818cb6d32";
+      // const jsondata = escape(JSON.stringify(storage));
+      const jsondata = JSON.stringify(storage, null, 4);
+      //console.log(jsondata);
+      const escapeJSON = function (str) {
+        return str
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, "\\n")
+          .replace(/\r/g, "\\r")
+          .replace(/\t/g, "\\t");
+      };
+      console.log(escapeJSON(jsondata));
+      var settings = {
+        async: true,
+        crossDomain: true,
+        url: "https://api.github.com/gists",
+        method: "POST",
+        headers: {
+          authorization: "Basic " + btoa(gituser + ":" + gittoken),
+          "content-type": "application/json;charset=utf-8",
+          "cache-control": "no-cache",
+          "postman-token": "a7ac1f6f-eb59-69ce-4907-9a58c89f6b5f",
+        },
+        processData: false,
+        data: `{\r\n  "description": "Mission Control Chrome Extension Backup Data",\r\n  "public": true,\r\n  "files": {\r\n    "mission_control_ext_bkp.json": {\r\n      "content": "${escapeJSON(
+          jsondata
+        )}"\r\n    }\r\n    }\r\n    }`,
+      };
+
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+      });
+    });
+  }
+  // make it work on click after getting API
+  // exportToGithub();
 })();

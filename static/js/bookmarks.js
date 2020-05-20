@@ -458,15 +458,40 @@ data-id="${bookmarks_id}">
     });
   });
 
+  async function getClipboardContents() {
+    try {
+      console.log("Getting Clipboard Data");
+      const clipboardData = await navigator.clipboard.readText();
+      console.log(clipboardData);
+      if (validURL(clipboardData)) {
+        console.log("Clipboard Data is Calid URL");
+        $("#bookmark_url").val(clipboardData);
+        getTitlefromURL(clipboardData);
+        $("#bookmark_title").focus();
+      }
+    } catch (err) {
+      console.error("Failed to read clipboard contents: ", err);
+    }
+  }
+
   function toggleModal() {
     const body = document.querySelector("body");
     const modal = document.querySelector(".modal");
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+    console.log("Opening Modal");
+    getClipboardContents();
   }
 
   // Card Dropdown
+
+  $(document).on("click", ".js__add_bookmark", function (e) {
+    e.preventDefault();
+    var catID = $(this).closest(".js__bookamrk_card").data("card");
+    $("#addBookmarkform #category_id").val(catID);
+    toggleModal();
+  });
 
   $("#bookmark_cards").on("click", ".js__card_settings", function (e) {
     e.preventDefault();
