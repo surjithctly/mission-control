@@ -98,13 +98,22 @@
       //   filename: "mc_bkp.json",
       // });
 
-      var href = "data:application/json," + escape(JSON.stringify(storage));
-      $(".link-to-download").attr("href", href);
-      $(".link-to-download").attr(
-        "download",
-        `mission_backup_${Date.now()}.json`
+      // var href = "data:application/json," + escape(JSON.stringify(storage));
+      // $(".link-to-download").attr("href", href);
+      // $(".link-to-download").attr(
+      //   "download",
+      //   `mission_backup_${Date.now()}.json`
+      // );
+      // $(".link-to-download")[0].click();
+
+      let e = document.createElement("a");
+      e.setAttribute(
+        "href",
+        `data:application/json;charset=utf-8,${escape(JSON.stringify(storage))}`
       );
-      $(".link-to-download")[0].click();
+      e.setAttribute("download", `mission_backup_${Date.now()}.json`);
+      e.click();
+
       //  e.stopPropagation();
     });
   });

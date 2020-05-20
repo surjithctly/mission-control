@@ -154,10 +154,11 @@
 }
 
 
-/* .card__actions {
-    display: none;
+.card__actions {
+    opacity: 0;
+    transition: all ease 0.2s;
 }
 
 .js__bookamrk_card:hover .card__actions {
-    display: inherit;
-} */
+    opacity: 1;
+}
