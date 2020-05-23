@@ -1,8 +1,14 @@
 (function () {
   "use strict";
 
-  //  random hex string generator
-  // used to provide unique ID
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Utils Functions
+   * //  random hex string generator
+   * // Used to provide unique ID to Cards & Sites
+   * -----------------------------------------------------------------------------------
+   */
+
   var randHex = function (len) {
     var maxlen = 8,
       min = Math.pow(16, Math.min(len, maxlen) - 1),
@@ -15,34 +21,12 @@
     return r;
   };
 
-  // END ///// Process Chrome Bookmarks as Folder
-
-  $("#bookmark_url").on("keyup change paste input", function (e) {
-    // console.log(this.value);
-    if (this.value != "") {
-      // $("#bookmarkMoreForm").removeClass("hidden");
-      var url_result = validURL(this.value);
-      if (url_result) {
-        // Function declared as async so await can be used
-        async function fetchContent() {
-          // Instead of using fetch().then, use await
-          // let content = await fetch("/");
-          let text = await $("#bookmark_url").val();
-
-          // Inside the async function text is the request body
-          // console.log(text);
-          getTitlefromURL(text);
-          // Resolve this async function with the text
-          return text;
-        }
-
-        // Use the async function
-        var promise = fetchContent();
-      }
-    } else {
-      //  $("#bookmarkMoreForm").addClass("hidden");
-    }
-  });
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Check if a String Valid URL
+   * // Used to fetch Title from Link
+   * -----------------------------------------------------------------------------------
+   */
 
   function validURL(str) {
     var pattern = new RegExp(
@@ -57,30 +41,73 @@
     return !!pattern.test(str);
   }
 
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Bookmark INPUT Function
+   * // Functions to fetch Title
+   * -----------------------------------------------------------------------------------
+   */
+
+  $("#bookmark_url").on("keyup change paste input", function (e) {
+    if (this.value != "") {
+      var url_result = validURL(this.value);
+      if (url_result) {
+        // Function declared as async so await can be used
+        async function fetchContent() {
+          // Instead of using fetch().then, use await
+          let text = await $("#bookmark_url").val();
+
+          // Inside the async function text is the request body
+          getTitlefromURL(text);
+          // Resolve this async function with the text
+          return text;
+        }
+
+        // Use the async function
+        var promise = fetchContent();
+      }
+    } else {
+      //  Do Nothing
+    }
+  });
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Fetch <TITLE> from URL
+   * // This requries manifest Persmission for <all_urls>
+   * // content_security_policy also need to satisfy
+   * -----------------------------------------------------------------------------------
+   */
+
   function getTitlefromURL(url_result) {
-    //  alert(url_result);
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url_result, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.responseText) {
         if (xhr.responseText.indexOf("<title>") != -1) {
           var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
-
           console.log(title);
           addTitletoDom(title);
         } else {
-          console.log("title not found;");
+          console.log("Title not found");
         }
       } else {
-        //console.log(xhr);
+        // do nothing
       }
     };
     xhr.onerror = function (e) {
-      console.log("xhr onerror");
+      console.log("xhr Fetch Error");
       console.log(e);
     };
     xhr.send();
   }
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Add Fetched Title to DOM
+   * // It will be blank if error or can't find title
+   * -----------------------------------------------------------------------------------
+   */
 
   function addTitletoDom(title) {
     if ($("#bookmark_title").val() === "" && $("#bookmark_url").val() !== "") {
@@ -88,6 +115,13 @@
       // console.log(this.value);
     }
   }
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // CARD TEMPLATE
+   * // USed in many Places to GENERATE CARD UI DOM
+   * -----------------------------------------------------------------------------------
+   */
 
   const newCardTemplate = ({ card_title, card_id, websites, starred }) => `
 
@@ -141,6 +175,13 @@
 
 `;
 
+  /*
+   * -----------------------------------------------------------------------------------
+   * // WEBSITE LIST TEMPLATE
+   * // To use inside card Template.
+   * -----------------------------------------------------------------------------------
+   */
+
   const bookmarklist = ({
     bookmarks_id,
     bookmarks_title,
@@ -154,7 +195,9 @@ data-id="${bookmarks_id}">
 <div
     class="w-5 h-5 pt-05 "> 
 
-<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${bookmarks_url}" alt="">  
+<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${
+    new URL(bookmarks_url).origin
+  }" alt="">  
 </div>
 
 <a href="${bookmarks_url}" target="_blank" class="js--bookmarks__title flex-1 text-sm ml-3 h-5 leading-snug mr-auto truncate"
@@ -173,7 +216,12 @@ data-id="${bookmarks_id}">
 
 `;
 
-  // TEST SECTION XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  /*
+   * -----------------------------------------------------------------------------------
+   * // ON Page Load Setup
+   * // It will Generate Cards on page load
+   * -----------------------------------------------------------------------------------
+   */
 
   var carddb = "sites";
 
@@ -182,10 +230,8 @@ data-id="${bookmarks_id}">
   chrome.storage.local.get(carddb, function (storage) {
     if (carddb in storage) {
       cardarray = storage[carddb];
-      console.log(carddb);
-      console.log(storage);
-      console.log(cardarray);
     } else {
+      // user is first time or database not found
       storage = {};
       storage[carddb] = [];
 
@@ -200,11 +246,8 @@ data-id="${bookmarks_id}">
         };
         storage[carddb].push(newCat);
 
-        console.log(storage);
-        console.log(storage[carddb]);
         var topbook = storage[carddb];
 
-        // console.log(topbook[websites]);
         var newwebsites = new Array();
         for (var i = 0; i < arr.length; i++) {
           var newItem = {
@@ -225,7 +268,6 @@ data-id="${bookmarks_id}">
             }
           }
         }
-        console.log(storage);
 
         chrome.storage.local.set(
           storage,
@@ -238,21 +280,21 @@ data-id="${bookmarks_id}">
       });
     }
 
-    //displaying the old items
+    //displaying the existing items (if user is not new user)
     for (var i = 0; i < cardarray.length; i++) {
       addSiteCards(cardarray[i]);
     }
   });
 
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Function to Add Cards to DOM
+   * // It will fetch the Card Template from above
+   * -----------------------------------------------------------------------------------
+   */
+
   function addSiteCards(cardarray) {
     var websitelist = addSiteLists(cardarray.websites);
-    //console.log(websitelist);
-    // for (var i = 0; i < cardarray.websites.length; i++) {
-    //   //addSiteCards(cardarray[i]);
-
-    //  // console.log(cardarray.websites[i].title);
-
-    // }
 
     $("#bookmark_cards").append(
       [
@@ -743,6 +785,23 @@ data-id="${bookmarks_id}">
       sortSiteCards(newIndex, oldIndex);
       // same properties as onEnd
     },
+  });
+
+  /*
+   * FILTER Bookmark Cards by Starred or Show All
+   */
+
+  $("#filter__site_cards button").on("click", function () {
+    // do
+    if ($(this).is("#filter__by_starred")) {
+      $(".js__bookamrk_card:not(.starred)").addClass("hidden");
+      $("#filter__site_cards button").removeClass("toggle__active");
+      $(this).addClass("toggle__active");
+    } else {
+      $(".js__bookamrk_card").removeClass("hidden");
+      $("#filter__site_cards button").removeClass("toggle__active");
+      $(this).addClass("toggle__active");
+    }
   });
 
   // Process Current Chrome Bookmarks as Folder

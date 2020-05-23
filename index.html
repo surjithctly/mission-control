@@ -84,6 +84,39 @@
 
                 <input name="search" autocomplete="off" placeholder="Search Websites or Cards..."
                     class="search w-full px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline pl-10" />
+                <div class="flex justify-center mt-5">
+
+                    <div class="bg-gray-200 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full inline-flex"
+                        id="filter__site_cards">
+                        <button
+                            class="inline-flex items-center focus:outline-none hover:text-indigo-400 focus:text-indigo-400 rounded-l-full px-4 py-2 "
+                            id="filter__by_starred">
+
+
+                            <svg class="fill-current w-4 h-4 mr-2" fill="none" stroke-linecap="round"
+                                stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
+                                <path
+                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
+                                </path>
+                            </svg>
+
+                            <span>Starred</span>
+                        </button>
+                        <button
+                            class="inline-flex items-center focus:outline-none hover:text-indigo-400 focus:text-indigo-400 rounded-r-full px-4 py-2 toggle__active"
+                            id="filter__by_all">
+
+                            <svg class="stroke-current w-4 h-4 mr-2" width="24" height="24" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                viewbox="0 0 24 24">
+                                <path
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+                                </path>
+                            </svg>
+                            <span>Show All</span>
+                        </button>
+                    </div>
+                </div>
 
             </div>
 
@@ -150,6 +183,127 @@
     </div>
 
 
+    <div id="settings" class="hidden">
+        <div class="container mx-auto flex flex-row h-screen justify-center py-6">
+
+
+            <!-- tasks Block -->
+            <div
+                class="bg-white p-8 shadow-md w-1/2 max-h-full overflow__block overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+
+                <div class="content">
+
+
+
+
+
+
+
+
+                    <div class="header  text-center">
+                        <h3 class="pb-1 text-indigo-700 text-xl tracking-wide">
+                            Mission Control</h3>
+                        <p class="text-gray-500">Change Settings</p>
+                        <hr class="mt-5 mb-8">
+
+
+
+
+                    </div>
+                </div>
+                <div class="content">
+                    <h3 class="px-1 py-1 text-gray-700 font-bold text-lg tracking-wide mr-auto truncate w-64">
+                        Sync Data to Github Gist</h3>
+
+                    <div class="my-3 mb-5 p-5 bg-gray-100">
+
+                        <div class="mb-4">
+                            <label for="" class="text-base mb-2 text-gray-800 block">Github Personal Token</label>
+
+
+                            <input type="text" id="g__token" name="g__token" placeholder="Personal Token"
+                                autocomplete="off"
+                                class="px-2 py-2 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                        </div>
+
+                        <div class="mb-4 hidden">
+                            <label for="" class="text-base mb-2 text-gray-800 block">Gist ID <a
+                                    id="delete__existing_gist" href="#!" class="text-red-700 float-right"
+                                    title="Delete this Gist to Create new Gist when syncing"><small>Delete this
+                                        Gist</small></a></label>
+
+
+                            <input type="text" id="g__id" name="g__id" disabled placeholder="You may keep it blank. "
+                                autocomplete="off"
+                                class="px-2 py-2 disabled:opacity-75 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                        </div>
+
+
+                        <div class="mb-4">
+                            <label class="block text-gray-800" for="g__public"
+                                title="Can Set only while creating new GIST, Delete existing GIST to Change this">
+                                <input class="leading-tight" type="checkbox" id="g__public" name="g__public">
+                                <span class="text-sm">
+                                    Make Public Gist (Access anywhere)
+                                </span>
+                            </label>
+                        </div>
+
+                        <div class=" px-6 py-4  rounded mb-4 bg-gray-200">
+                            <h4 class="text-gray-600 mb-2"><strong>How to create a Github Token?</strong></h4>
+                            <p class=" text-gray-600 ">
+
+                                Click this <strong> <a href="https://github.com/settings/tokens/new"
+                                        class="text-blue-600">Generate
+                                        Token</a> </strong> link and login to your
+                                github account. Tick the Checkbox for <strong>Gist (Create Gist)</strong> from the given
+                                list and click Generate Token. You are done. Just copy the Token and paste here.
+                            </p>
+                        </div>
+
+                        <div class="flex">
+
+                            <button id="g__syncData"
+                                class="inline-flex mr-auto bg-indigo-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                type="button" style="transition: all .15s ease">
+                                <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                    </path>
+                                </svg>
+                                <span>Sync Data
+                                </span>
+                            </button>
+
+                            <button id="download__as_json"
+                                class="inline-flex bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                type="button" style="transition: all .15s ease">
+                                <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M8 16a5 5 0 01-.916-9.916 5.002 5.002 0 019.832 0A5.002 5.002 0 0116 16m-7 3l3 3m0 0l3-3m-3 3V10">
+                                    </path>
+                                </svg>
+                                <span> Download as JSON
+                                </span>
+                            </button>
+                        </div>
+
+                        <p id="last_sync_info" class="text-gray-500"></p>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
     <div class="fixed left-0 top-0 m-4">
 
         <div id="showSettings" class="w-12 h-12 p-3 m-1 bg-white shadow-sm rounded-full overflow-hidden">
@@ -167,6 +321,12 @@
                         <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                 </span>
+
+                <span class="settings__go-back"><svg fill="none" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg></span>
+
 
             </a>
 

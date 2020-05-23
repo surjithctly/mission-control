@@ -129,6 +129,10 @@
     display: initial;
 } */
 
+.disabled\:opacity-75:disabled {
+    opacity: .75 !important
+}
+
 
 .overflow__block.scrollbar-thumb-gray:hover::-webkit-scrollbar-thumb {
     --bg-opacity: 0.5 !important;
@@ -161,4 +165,24 @@
 
 .js__bookamrk_card:hover .card__actions {
     opacity: 1;
+}
+
+/* Toggle */
+.toggle__active {
+    background: white;
+    border-radius: 9999px;
+    color: #7f9cf5;
+}
+
+/* SETTINGS */
+.settings__is_open>a>span {
+    display: none;
+}
+
+.settings__go-back {
+    display: none;
+}
+
+.settings__is_open .settings__go-back {
+    display: initial;
 }
