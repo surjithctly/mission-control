@@ -14,60 +14,82 @@
 
 <body class="bg-gray-100">
     <div id="tasks" class="hidden">
-        <div class="container mx-auto flex flex-row h-screen  items-center justify-center content-center py-6">
+
+        <div id="task_cards" class="mx-auto flex flex-row flex-wrap min-h-screen justify-center py-6">
 
 
-            <!-- tasks Block -->
-            <div
-                class="bg-white p-5 shadow-md w-1/4 max-h-full overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+            <div id="addNewTaskUI"
+                class="m-5 bg-gray-100 p-5 w-1/5 h-25 border-2 border-dashed flex items-center justify-center cursor-pointer">
 
-                <div class="content">
-                    <div class="header">
-                        <p class="text-gray-400 tracking-wide">MY TASKS</p>
-
-
-                        <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
-                            <span
-                                class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
-                                <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    stroke="currentColor" viewbox="0 0 24 24">
-                                    <path d="M12 4v16m8-8H4"></path>
-                                </svg>
-                            </span>
-                            <input type="text" id="todo_title" name="todo_title" placeholder="Add new task..."
-                                autocomplete="off"
-                                class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
-                        </div>
-
-
-                    </div>
+                <div class="w-1/2 h-1/2 text-center text-gray-300">
+                    <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        stroke="currentColor" viewbox="0 0 24 24">
+                        <path d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    <h3 class="text-lg  text-gray-400"> Add New</h3>
                 </div>
-                <div class="content">
-                    <div class="ui small feed">
-
-                        <div class="relative" id="showtasklist">
-
-                            <div class="text-center" id="loader">
-                                <div class="w-8 h-8 inline-block">
-                                    <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
-                                            viewbox="0 0 50 50">
-                                            <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
-                                            </circle>
-                                        </svg></div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-
-
 
             </div>
 
+
+            <!-- tasks Block -->
+            <div class="js__tasks_card relative m-5 bg-white shadow-md w-1/5 h-25">
+
+                <div
+                    class="overflow__block  p-5  h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+
+                    <div class="content">
+                        <div class="header">
+                            <p class="text-gray-400 tracking-wide">MY TASKS</p>
+
+
+                            <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                                <span
+                                    class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                    <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        stroke="currentColor" viewbox="0 0 24 24">
+                                        <path d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                </span>
+                                <input type="text" id="todo_title" name="todo_title" placeholder="Add new task..."
+                                    autocomplete="off"
+                                    class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="ui small feed">
+
+                            <div class="relative" id="showtasklist">
+
+                                <div class="text-center" id="loader">
+                                    <div class="w-8 h-8 inline-block">
+                                        <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
+                                                viewbox="0 0 50 50">
+                                                <circle class="path" cx="25" cy="25" r="20" fill="none"
+                                                    stroke-width="5">
+                                                </circle>
+                                            </svg></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
         </div>
+
+
     </div>
+
+    <!-- // END TASKS -->
 
     <div id="bookmarks" class="hidden">
         <div class="flex m-16 mb-8 justify-center">

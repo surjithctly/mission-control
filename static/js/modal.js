@@ -28,5 +28,6 @@
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+    $("#addBookmarkform")[0].reset();
   }
 })();

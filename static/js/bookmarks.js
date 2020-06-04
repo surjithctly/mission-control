@@ -84,7 +84,7 @@
     xhr.open("GET", url_result, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.responseText) {
-        if (xhr.responseText.indexOf("<title>") != -1) {
+        if (xhr.responseText.indexOf("<title") != -1) {
           var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
           console.log(title);
           addTitletoDom(title);
@@ -721,10 +721,29 @@ data-id="${bookmarks_id}">
       console.log($context);
       $context.find(".js__bookamrk_card .item").show().unmark();
       $context.find(".js__bookamrk_card").show().unmark();
+      $context.find(".js__bookamrk_card").removeClass("category-matched");
       if (term) {
         $context.mark(term, {
           done: function () {
-            $context.find(".js__bookamrk_card .item").not(":has(mark)").hide();
+            const promise1 = new Promise((resolve, reject) => {
+              $context
+                .find(".js__bookamrk_card .header p")
+                .find("mark")
+                .closest(".js__bookamrk_card")
+                .addClass("category-matched");
+              resolve();
+            });
+
+            promise1.then(() => {
+              $context
+                .find(".js__bookamrk_card:not(.category-matched)")
+                .find(".item")
+                .not(":has(mark)")
+                .hide();
+              console.log("i;m workin");
+              // expected output: "Success!"
+            });
+
             $context.find(".js__bookamrk_card").not(":has(mark)").hide();
 
             // $context.not(":has(mark)").hide();
@@ -773,7 +792,7 @@ data-id="${bookmarks_id}">
   var el = document.getElementById("bookmark_cards");
   var sortable = Sortable.create(el, {
     draggable: ".js__bookamrk_card",
-    filter: ".card__actions",
+    filter: ".card__actions, .header, .item ",
     animation: 150,
     ghostClass: "item__is__dragging",
     forceFallback: true,
