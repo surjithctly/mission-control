@@ -84,7 +84,7 @@
     xhr.open("GET", url_result, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.responseText) {
-        if (xhr.responseText.indexOf("<title") != -1) {
+        if (xhr.responseText.indexOf("<titles>") != -1) {
           var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
           console.log(title);
           addTitletoDom(title);
