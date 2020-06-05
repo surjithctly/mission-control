@@ -130,9 +130,8 @@
 } */
 
 .disabled\:opacity-75:disabled {
-    opacity: .75 !important
+    opacity: .75 !important;
 }
-
 
 .overflow__block.scrollbar-thumb-gray:hover::-webkit-scrollbar-thumb {
     --bg-opacity: 0.5 !important;

@@ -52,6 +52,10 @@
     if (this.value != "") {
       var url_result = validURL(this.value);
       if (url_result) {
+        $("#bookmark_title").attr({
+          disabled: true,
+          placeholder: "Fetching Title... Please wait",
+        });
         // Function declared as async so await can be used
         async function fetchContent() {
           // Instead of using fetch().then, use await
@@ -59,6 +63,7 @@
 
           // Inside the async function text is the request body
           getTitlefromURL(text);
+
           // Resolve this async function with the text
           return text;
         }
@@ -83,23 +88,27 @@
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url_result, true);
     xhr.onreadystatechange = function () {
+      $("#bookmark_title").attr({
+        disabled: false,
+        placeholder: "Enter Title",
+      });
       if (xhr.readyState == 4 && xhr.responseText) {
         if (xhr.responseText.indexOf("<title>") != -1) {
+          // console.log(xhr.responseText);
           var title = /<title>(.*?)<\/title>/m.exec(xhr.responseText)[1];
           console.log(title);
           addTitletoDom(title);
         } else {
+          console.log(xhr.statusText);
           console.log("Title not found");
         }
-      } else {
-        // do nothing
       }
     };
     xhr.onerror = function (e) {
       console.log("xhr Fetch Error");
-      console.log(e);
+      //console.log(xhr.statusText);
     };
-    xhr.send();
+    xhr.send(null);
   }
 
   /*
@@ -508,6 +517,11 @@ data-id="${bookmarks_id}">
       if (validURL(clipboardData)) {
         console.log("Clipboard Data is Calid URL");
         $("#bookmark_url").val(clipboardData);
+        // disable Title field while fetching from URL
+        $("#bookmark_title").attr({
+          disabled: true,
+          placeholder: "Fetching Title... Please wait",
+        });
         getTitlefromURL(clipboardData);
         $("#bookmark_title").focus();
       }
@@ -522,8 +536,8 @@ data-id="${bookmarks_id}">
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
-    console.log("Opening Modal");
-    getClipboardContents();
+    console.log("Toggle Modal");
+    if (body.classList.contains("modal-active")) getClipboardContents();
   }
 
   // Card Dropdown
