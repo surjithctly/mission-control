@@ -110,13 +110,17 @@
     display: block;
 }
 
-.item__is__dragging {
+.card__is__dragging,
+.site__is__dragging {
     background-color: #edf2f7;
 }
 
-.item__is__dragging * {
+.card__is__dragging *,
+.site__is__dragging * {
     opacity: 0;
 }
+
+
 
 /* 
 .js__bookamrk_card::-webkit-scrollbar {
@@ -137,6 +141,26 @@
     --bg-opacity: 0.5 !important;
     background-color: #cbd5e0 !important;
     background-color: rgba(203, 213, 224, var(--bg-opacity)) !important
+}
+
+.draggable-svg {
+    top: 9px;
+    left: -12px;
+}
+
+.grabbable {
+    cursor: move;
+    /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 
 .js__bookamrk_card:after {

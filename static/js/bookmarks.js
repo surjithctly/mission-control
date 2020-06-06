@@ -140,7 +140,17 @@
   }" data-card="${card_id}" data-star="${starred}">
 
   <div class="overflow__block  p-5  h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
-  <div class="header flex  items-center mb-3 ">
+  <div class="header flex relative grabbable items-center mb-3 ">
+  <span class="draggable-svg absolute text-gray-400 z-10 grabbable"><svg xmlns="http://www.w3.org/2000/svg" width="6" height="17" viewBox="0 0 6 17" fill="none">
+  <circle cx="1" cy="1" r="1" fill="currentcolor"/>
+  <circle cx="1" cy="6" r="1" fill="currentcolor"/>
+  <circle cx="1" cy="11" r="1" fill="currentcolor"/>
+  <circle cx="1" cy="16" r="1" fill="currentcolor"/>
+  <circle cx="5" cy="1" r="1" fill="currentcolor"/>
+  <circle cx="5" cy="6" r="1" fill="currentcolor"/>
+  <circle cx="5" cy="11" r="1" fill="currentcolor"/>
+  <circle cx="5" cy="16" r="1" fill="currentcolor"/>
+  </svg></span>
   <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
   <p class="px-1 py-1 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
   <div class="card__actions flex">
@@ -173,7 +183,7 @@
 
   </div>
 
-  <div class="content">
+  <div class="content js_content">
   ${websites}
   </div>
 
@@ -202,11 +212,15 @@
 data-id="${bookmarks_id}">
 
 <div
-    class="w-5 h-5 pt-05 "> 
+    class="w-5 h-5 pt-05 grabbable"> 
+    <picture>
 
-<img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${
+
+  <source srcset="chrome://favicon/${new URL(bookmarks_url).origin}" alt="">
+  <img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${
     new URL(bookmarks_url).origin
   }" alt="">  
+  </picture>  
 </div>
 
 <a href="${bookmarks_url}" target="_blank" class="js--bookmarks__title flex-1 text-sm ml-3 h-5 leading-snug mr-auto truncate"
@@ -336,7 +350,6 @@ data-id="${bookmarks_id}">
           .map(bookmarklist)
           .join("") + websitelist;
     }
-
     return websitelist;
   }
 
@@ -806,12 +819,13 @@ data-id="${bookmarks_id}">
   var el = document.getElementById("bookmark_cards");
   var sortable = Sortable.create(el, {
     draggable: ".js__bookamrk_card",
-    filter: ".card__actions, .header, .item ",
+    filter: ".card__actions, .js__card_title_input",
+    preventOnFilter: false,
     animation: 150,
-    ghostClass: "item__is__dragging",
+    ghostClass: "card__is__dragging",
     forceFallback: true,
     onEnd: function (/**Event*/ evt) {
-      console.log("newidex:" + (evt.oldIndex - 1));
+      console.log("oldIndex:" + (evt.oldIndex - 1));
       console.log("newidex:" + (evt.newIndex - 1));
       var newIndex = evt.newIndex - 1;
       var oldIndex = evt.oldIndex - 1;
@@ -819,6 +833,40 @@ data-id="${bookmarks_id}">
       // same properties as onEnd
     },
   });
+
+  // wait for some time to dynamically load content
+  setTimeout(() => {
+    //Select our child group and make sortable
+    var child = document.getElementsByClassName("js_content");
+    for (var i = 0; i < child.length; i++) {
+      // console.log(child[i]);
+      new Sortable(child[i], {
+        group: {
+          name: "shared",
+          pull: true,
+        },
+        ghostClass: "site__is__dragging",
+        animation: 150,
+        forceFallback: true,
+        fallbackClass: "clone_card",
+        onStart: function (evt) {
+          $(".js_content").addClass("disable__hover");
+        },
+        onEnd: function (evt) {
+          $(".js_content").removeClass("disable__hover");
+          console.log(evt);
+          console.log($(evt.to).closest(".js__bookamrk_card").data("card"));
+          console.log("newidex:" + evt.oldIndex);
+          console.log("newidex:" + evt.newIndex);
+        },
+      });
+    }
+  }, 2000);
+
+  // new Sortable(item, {
+  //   group: "shared",
+  //   animation: 150,
+  // });
 
   /*
    * FILTER Bookmark Cards by Starred or Show All
