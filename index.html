@@ -234,87 +234,111 @@
                     </div>
                 </div>
                 <div class="content">
-                    <h3 class="px-1 py-1 text-gray-700 font-bold text-lg tracking-wide mr-auto truncate w-64">
-                        Sync Data to Github Gist</h3>
-
-                    <div class="my-3 mb-5 p-5 bg-gray-100">
-
-                        <div class="mb-4">
-                            <label for="" class="text-base mb-2 text-gray-800 block">Github Personal Token</label>
 
 
-                            <input type="text" id="g__token" name="g__token" placeholder="Personal Token"
-                                autocomplete="off"
-                                class="px-2 py-2 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                    <details open>
+                        <summary
+                            class="cursor-pointor block w-100 px-1 py-1 text-gray-700 font-bold text-lg tracking-wide mr-auto truncate">
+
+                            Sync Data to Github Gist
+                        </summary>
+
+
+
+
+                        <div class="my-3 mb-5 p-5 bg-gray-100">
+
+                            <div class="mb-4">
+                                <label for="" class="text-base mb-2 text-gray-800 block">Github Personal Token</label>
+
+
+                                <input type="text" id="g__token" name="g__token" placeholder="Personal Token"
+                                    autocomplete="off"
+                                    class="px-2 py-2 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                            </div>
+
+                            <div class="mb-4 hidden">
+                                <label for="" class="text-base mb-2 text-gray-800 block">Gist ID <a
+                                        id="delete__existing_gist" href="#!" class="text-red-700 float-right"
+                                        title="Delete this Gist to Create new Gist when syncing"><small>Delete this
+                                            Gist</small></a></label>
+
+
+                                <input type="text" id="g__id" name="g__id" disabled
+                                    placeholder="You may keep it blank. " autocomplete="off"
+                                    class="px-2 py-2 disabled:opacity-75 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                            </div>
+
+
+                            <div class="mb-4">
+                                <label class="block text-gray-800" for="g__public"
+                                    title="Only Available while creating new Gist.">
+                                    <input class="leading-tight" type="checkbox" id="g__public" name="g__public">
+                                    <span class="text-sm">
+                                        Make Public Gist (Access anywhere) <span
+                                            class="inline-block w-4 h-4 pt-1 text-gray-500"
+                                            title="Can change only while creating new Gist, Delete existing Gist to modify">
+                                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path
+                                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class=" px-6 py-4  rounded mb-4 bg-gray-200">
+                                <h4 class="text-gray-600 mb-2"><strong>How to create a Github Token?</strong></h4>
+                                <p class=" text-gray-600 ">
+
+                                    Click this <strong> <a href="https://github.com/settings/tokens/new"
+                                            class="text-blue-600">Generate
+                                            Token</a> </strong> link and login to your
+                                    github account. Tick the Checkbox for <strong>Gist (Create Gist)</strong> from the
+                                    given
+                                    list and click Generate Token. You are done. Just copy the Token and paste here.
+                                </p>
+                            </div>
+
+                            <div class="flex">
+
+                                <button id="g__syncData"
+                                    class="inline-flex mr-auto bg-indigo-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                    type="button" style="transition: all .15s ease">
+                                    <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                        </path>
+                                    </svg>
+                                    <span>Sync Data
+                                    </span>
+                                </button>
+
+                                <button id="download__as_json"
+                                    class="inline-flex bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                    type="button" style="transition: all .15s ease">
+                                    <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round" stroke-width="2" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M8 16a5 5 0 01-.916-9.916 5.002 5.002 0 019.832 0A5.002 5.002 0 0116 16m-7 3l3 3m0 0l3-3m-3 3V10">
+                                        </path>
+                                    </svg>
+                                    <span> Download as JSON
+                                    </span>
+                                </button>
+                            </div>
+
+                            <p id="last_sync_info" class="text-gray-500"></p>
+
                         </div>
 
-                        <div class="mb-4 hidden">
-                            <label for="" class="text-base mb-2 text-gray-800 block">Gist ID <a
-                                    id="delete__existing_gist" href="#!" class="text-red-700 float-right"
-                                    title="Delete this Gist to Create new Gist when syncing"><small>Delete this
-                                        Gist</small></a></label>
+                    </details>
 
-
-                            <input type="text" id="g__id" name="g__id" disabled placeholder="You may keep it blank. "
-                                autocomplete="off"
-                                class="px-2 py-2 disabled:opacity-75 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
-                        </div>
-
-
-                        <div class="mb-4">
-                            <label class="block text-gray-800" for="g__public"
-                                title="Can Set only while creating new GIST, Delete existing GIST to Change this">
-                                <input class="leading-tight" type="checkbox" id="g__public" name="g__public">
-                                <span class="text-sm">
-                                    Make Public Gist (Access anywhere)
-                                </span>
-                            </label>
-                        </div>
-
-                        <div class=" px-6 py-4  rounded mb-4 bg-gray-200">
-                            <h4 class="text-gray-600 mb-2"><strong>How to create a Github Token?</strong></h4>
-                            <p class=" text-gray-600 ">
-
-                                Click this <strong> <a href="https://github.com/settings/tokens/new"
-                                        class="text-blue-600">Generate
-                                        Token</a> </strong> link and login to your
-                                github account. Tick the Checkbox for <strong>Gist (Create Gist)</strong> from the given
-                                list and click Generate Token. You are done. Just copy the Token and paste here.
-                            </p>
-                        </div>
-
-                        <div class="flex">
-
-                            <button id="g__syncData"
-                                class="inline-flex mr-auto bg-indigo-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
-                                type="button" style="transition: all .15s ease">
-                                <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                                    </path>
-                                </svg>
-                                <span>Sync Data
-                                </span>
-                            </button>
-
-                            <button id="download__as_json"
-                                class="inline-flex bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
-                                type="button" style="transition: all .15s ease">
-                                <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path
-                                        d="M8 16a5 5 0 01-.916-9.916 5.002 5.002 0 019.832 0A5.002 5.002 0 0116 16m-7 3l3 3m0 0l3-3m-3 3V10">
-                                    </path>
-                                </svg>
-                                <span> Download as JSON
-                                </span>
-                            </button>
-                        </div>
-
-                        <p id="last_sync_info" class="text-gray-500"></p>
-
-                    </div>
 
                 </div>
 
