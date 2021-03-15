@@ -1,13 +1,19 @@
 {
     "name": "Mission Control - New Tab Launcher",
+    "author": "Surjith S M",
     "version": "1.0",
     "description": "Make your new tab a launch console.",
-    "permissions": ["storage", "tabs", "bookmarks", "topSites", "unlimitedStorage", "downloads", "clipboardRead", "<all_urls>"],
-    "manifest_version": 2,
+    "permissions": ["storage", "tabs", "bookmarks", "topSites", "contextMenus", "activeTab", "unlimitedStorage", "downloads", "clipboardRead"],
+    "host_permissions": [
+        "<all_urls>",
+        "*://*/*"
+    ],
+    "manifest_version": 3,
     "short_name": "Mission Control",
-    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    //"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+
     "background": {
-        "scripts": ["static/js/background.js"]
+        "service_worker": "background.js"
     },
     "chrome_url_overrides": {
         "newtab": "index.html"
@@ -15,7 +21,8 @@
     "icons": {
         "128": "icon.png"
     },
-    "browser_action": {
-        "default_icon": "icon.png"
+    "action": {
+        "default_icon": "icon.png",
+        "default_title": "Open Mission Control"
     }
 }

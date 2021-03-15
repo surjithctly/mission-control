@@ -28,6 +28,39 @@
   //   }
   // When the enter key is pressed fire the addItem method.
 
+  /*
+   * -----------------------------------------------------------------------------------
+   * // SET UNSAVED TO TRUE
+   * // To Sync with Github
+   * -----------------------------------------------------------------------------------
+   */
+
+  function setUnsavedChanges() {
+    //console.log("inside setUnsavedChanges");
+    chrome.storage.local.get("settings", function (storage) {
+      // console.log("hey", storage);
+      const settings = storage.settings;
+      // console.log("hooy", settings);
+      // console.log(settings);
+      for (let key in settings) {
+        // console.log("kye" + key);
+        if (settings.hasOwnProperty(key)) {
+          settings[key].unsaved_changes = true;
+        }
+      }
+
+      chrome.storage.local.set({ settings }, function () {
+        // do nothing
+        console.log("done");
+      });
+    });
+  }
+  /*
+   * -----------------------------------------------------------------------------------
+   * // TASKS / TODAY Function
+   * //
+   * -----------------------------------------------------------------------------------
+   */
   //   var storage = {};
   var dbName = "todo_list";
   var tasksList = new Array();

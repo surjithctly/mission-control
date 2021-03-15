@@ -31,10 +31,10 @@
   function validURL(str) {
     var pattern = new RegExp(
       "^(https?:\\/\\/)?" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-      "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+        "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
+        "((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+        "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+        "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
         "(\\#[-a-z\\d_]*)?$",
       "i"
     ); // fragment locator
@@ -214,9 +214,10 @@ data-id="${bookmarks_id}">
 <div
     class="w-5 h-5 pt-05 grabbable"> 
     <picture>
-
-
-  <source srcset="chrome://favicon/${new URL(bookmarks_url).origin}" alt="">
+<!-- 
+  <source srcset="chrome://favicon2/?page_url=${
+    new URL(bookmarks_url).origin
+  }" alt=""> -->
   <img src="https://s2.googleusercontent.com/s2/favicons?domain_url=${
     new URL(bookmarks_url).origin
   }" alt="">  
@@ -238,6 +239,34 @@ data-id="${bookmarks_id}">
 
 
 `;
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // SET UNSAVED TO TRUE
+   * // To Sync with Github
+   * -----------------------------------------------------------------------------------
+   */
+
+  function setUnsavedChanges() {
+    console.log("inside setUnsavedChanges");
+    chrome.storage.local.get("settings", function (storage) {
+      // console.log("hey", storage);
+      const settings = storage.settings;
+      // console.log("hooy", settings);
+      // console.log(settings);
+      for (let key in settings) {
+        // console.log("kye" + key);
+        if (settings.hasOwnProperty(key)) {
+          settings[key].unsaved_changes = true;
+        }
+      }
+
+      chrome.storage.local.set({ settings }, function () {
+        // do nothing
+        console.log("done");
+      });
+    });
+  }
 
   /*
    * -----------------------------------------------------------------------------------
@@ -298,6 +327,7 @@ data-id="${bookmarks_id}">
             for (var i = 0; i < topbook.length; i++) {
               addSiteCards(topbook[i]);
             }
+            setUnsavedChanges();
           }.bind(this)
         );
       });
@@ -306,6 +336,7 @@ data-id="${bookmarks_id}">
     //displaying the existing items (if user is not new user)
     for (var i = 0; i < cardarray.length; i++) {
       addSiteCards(cardarray[i]);
+      //addDatalistToSearch(cardarray[i]);
     }
   });
 
@@ -332,6 +363,48 @@ data-id="${bookmarks_id}">
         .join("")
     );
   }
+  // const cardlabelearray = Array();
+  // function addDatalistToSearch(cardarray) {
+  //   // cardlabelearray.push(cardarray.label);
+  //   // console.log(cardlabelearray);
+  //   $("#card_categories").append(
+  //     `<li class="text-sm hover:bg-gray-100"><a href="#!" class="block p-2">${cardarray.label}</a></li>`
+  //   );
+
+  //   cardAutocomplete();
+  // }
+
+  // $("#card_categories").on("click", "a", function (e) {
+  //   e.preventDefault();
+  //   console.log($(this).text());
+  // });
+
+  // function cardAutocomplete() {
+  //   let $search = $("#bookmark_search_input");
+  //   let $context = $("#card_categories");
+  //   $search.on("input", function () {
+  //     let term = $(this).val();
+  //     $context.find("li").show().unmark();
+
+  //     if (term) {
+  //       $context.removeClass("hidden");
+  //       $context.mark(term, {
+  //         done: function () {
+  //           $context.find("li").not(":has(mark)").hide();
+  //         },
+  //       });
+  //     }
+  //   });
+  //   $search.focus(function () {
+  //     $context.removeClass("hidden");
+  //   });
+
+  //   $search.blur(function () {
+  //     setTimeout(() => {
+  //       $context.addClass("hidden");
+  //     }, 200);
+  //   });
+  // }
 
   function addSiteLists(websites) {
     var websitelist = "";
@@ -405,6 +478,7 @@ data-id="${bookmarks_id}">
 
       chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
+        setUnsavedChanges();
       });
     });
   }
@@ -465,7 +539,9 @@ data-id="${bookmarks_id}">
         // $("#bookmarkMoreForm").addClass("hidden");
 
         chrome.storage.local.set({ [carddb]: siteList }, function () {
-          console.log(siteList);
+          // console.log(siteList);
+          // console.log("running submit");
+          setUnsavedChanges();
         });
       });
 
@@ -507,6 +583,7 @@ data-id="${bookmarks_id}">
         storage,
         function () {
           console.log("cat added to db");
+          setUnsavedChanges();
         }.bind(this)
       );
 
@@ -608,6 +685,7 @@ data-id="${bookmarks_id}">
       chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
         $('.js__bookamrk_card[data-card="' + cardid + '"]').remove();
+        setUnsavedChanges();
       });
     });
   }
@@ -682,6 +760,7 @@ data-id="${bookmarks_id}">
 
       chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
+        setUnsavedChanges();
       });
     });
   }
@@ -734,6 +813,7 @@ data-id="${bookmarks_id}">
 
       chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
+        setUnsavedChanges();
       });
     });
   }
@@ -795,6 +875,7 @@ data-id="${bookmarks_id}">
       var newCardorder = reorderArray(event1, originalArray);
       chrome.storage.local.set({ [carddb]: newCardorder }, function () {
         console.log(newCardorder);
+        setUnsavedChanges();
       });
     });
   }

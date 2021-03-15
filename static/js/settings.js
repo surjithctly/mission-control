@@ -247,80 +247,196 @@
 
   /*
    *
+   * Import from Github Backup
+   *
+   */
+
+  $("#importBackupTrigger").on("click", function (e) {
+    e.preventDefault();
+    $("#importbackupBlock").toggleClass("hidden");
+    $("#gist_block").addClass("hidden");
+  });
+
+  $("#g__importData").on("click", doubleCheckImport);
+
+  function doubleCheckImport() {
+    if (
+      confirm(
+        "Are you sure you want to import?\nThis will delete all existing content in your system.\nYou cannot UNDO this action."
+      )
+    ) {
+      importToGithub();
+    } else {
+      // do nothing
+    }
+  }
+
+  function importToGithub() {
+    chrome.storage.local.get(null, function (storage) {
+      settings = storage[dbName];
+      const gittoken = settings[0].git_token;
+      const gist_id = $("#ex-g__id").val();
+
+      if (gist_id && gittoken) {
+        var ajaxsettings = {
+          async: true,
+          crossDomain: true,
+          url: "https://api.github.com/gists/" + gist_id,
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + gittoken,
+            Accept: "application/vnd.github.v3+json",
+          },
+          processData: false,
+        };
+
+        $.ajax(ajaxsettings).done(function (response) {
+          const backupdata = JSON.parse(
+            response.files["mission_control_ext_bkp.json"].content
+          );
+
+          if (backupdata) {
+            //const sitedata = backupdata.sites;
+            // const tododata = backupdata.todo_list;
+
+            storage["sites"] = backupdata.sites;
+            storage["todo_list"] = backupdata.todo_list;
+
+            console.log(storage);
+
+            // console.log(backupdata, sitedata, tododata);
+            for (let key in settings) {
+              if (settings.hasOwnProperty(key)) {
+                settings[key].gist_id = gist_id;
+              }
+            }
+
+            chrome.storage.local.set(
+              storage,
+              function () {
+                alert("Github Data succesfully imported! ");
+                location.reload();
+              }.bind(this)
+            );
+          } else {
+            alert("we couldn't find your backup data");
+          }
+        });
+      } else {
+        alert("Please fill Github Token & Gist ID");
+      }
+    });
+  }
+
+  /*
+   *
    * Export To Github Gists
    *
    */
 
-  function exportToGithub() {
+  setInterval(() => {
     chrome.storage.local.get(null, function (storage) {
-      if (dbName in storage) {
-        settings = storage[dbName];
-        const gittoken = settings[0].git_token;
-        const gist_id = settings[0].gist_id;
-        const git_public = settings[0].git_public;
-        const sitesTasksArray = Object.keys(storage).reduce((object, key) => {
-          if (key !== dbName) {
-            object[key] = storage[key];
-          }
-          return object;
-        }, {});
+      const settings = storage["settings"];
+      const unsaved_changes = settings[0].unsaved_changes;
+      console.log("Unsaved: " + unsaved_changes);
+      if (unsaved_changes) {
+        console.log("running sync");
+        //
+        //const promise = await exportToGithub();
 
-        console.log(sitesTasksArray);
-
-        // const jsondata = escape(JSON.stringify(storage));
-        // null , 4 used for formatting :)
-        const jsondata = JSON.stringify(sitesTasksArray, null, 4);
-        //console.log(jsondata);
-        const escapeJSON = function (str) {
-          return str
-            .replace(/"/g, '\\"')
-            .replace(/\n/g, "\\n")
-            .replace(/\r/g, "\\r")
-            .replace(/\t/g, "\\t");
-        };
-        console.log(escapeJSON(jsondata));
-        var ajsettings = {
-          async: true,
-          crossDomain: true,
-          url: gist_id
-            ? "https://api.github.com/gists/" + gist_id
-            : "https://api.github.com/gists",
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + gittoken,
-            "content-type": "application/json;charset=utf-8",
-            "cache-control": "no-cache",
-            "postman-token": "a7ac1f6f-eb59-69ce-4907-9a58c89f6b5f",
-          },
-          processData: false,
-          data: `{\r\n  "description": "Mission Control Chrome Extension Backup Data",\r\n  "public": "${git_public}",\r\n  "files": {\r\n    "mission_control_ext_bkp.json": {\r\n      "content": "${escapeJSON(
-            jsondata
-          )}"\r\n    }\r\n    }\r\n    }`,
-        };
-
-        $.ajax(ajsettings).done(function (response) {
-          console.log(response);
-
+        exportToGithub().then(() => {
+          console.log("value");
+          // expected output: "Success!"
           for (let key in settings) {
             if (settings.hasOwnProperty(key)) {
-              settings[key].gist_id = response.id;
-              settings[key].last_sync = response.updated_at;
+              settings[key].unsaved_changes = false;
             }
           }
-          console.log(storage);
-
-          chrome.storage.local.set(
-            storage,
-            function () {
-              $("#last_sync_info").text(
-                "Last Synced " +
-                  timeSince(new Date(settings[0].last_sync)) +
-                  " ago"
-              );
-            }.bind(this)
-          );
+          chrome.storage.local.set(storage, function () {
+            // do nothing
+            //console.log("done");
+          });
         });
       }
+    });
+  }, 5000);
+
+  function exportToGithub() {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(null, function (storage) {
+        if (dbName in storage) {
+          settings = storage[dbName];
+          const gittoken = settings[0].git_token;
+          const gist_id = settings[0].gist_id;
+          const git_public = settings[0].git_public;
+          const sitesTasksArray = Object.keys(storage).reduce((object, key) => {
+            if (key !== dbName) {
+              object[key] = storage[key];
+            }
+            return object;
+          }, {});
+
+          if (!gittoken) {
+            return;
+          }
+
+          //console.log(sitesTasksArray);
+
+          // const jsondata = escape(JSON.stringify(storage));
+          // null , 4 used for formatting :)
+          const jsondata = JSON.stringify(sitesTasksArray, null, 4);
+          //console.log(JSON.parse(jsondata));
+          const escapeJSON = function (str) {
+            return str
+              .replace(/\\/g, "\\\\")
+              .replace(/"/g, '\\"')
+              .replace(/\n/g, "\\n")
+              .replace(/\r/g, "\\r")
+              .replace(/\t/g, "\\t");
+          };
+          console.log(escapeJSON(jsondata));
+          var ajsettings = {
+            async: true,
+            crossDomain: true,
+            url: gist_id
+              ? "https://api.github.com/gists/" + gist_id
+              : "https://api.github.com/gists",
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + gittoken,
+              "content-type": "application/json;charset=utf-8",
+            },
+            processData: false,
+            data: `{\r\n  "description": "Mission Control Chrome Extension Backup Data",\r\n  "public": "${git_public}",\r\n  "files": {\r\n    "mission_control_ext_bkp.json": {\r\n      "content": "${escapeJSON(
+              jsondata
+            )}"\r\n    }\r\n    }\r\n    }`,
+          };
+
+          $.ajax(ajsettings).done(function (response) {
+            console.log(response);
+
+            for (let key in settings) {
+              if (settings.hasOwnProperty(key)) {
+                settings[key].gist_id = response.id;
+                settings[key].last_sync = response.updated_at;
+              }
+            }
+            console.log(storage);
+
+            chrome.storage.local.set(
+              storage,
+              function () {
+                $("#last_sync_info").text(
+                  "Last Synced " +
+                    timeSince(new Date(settings[0].last_sync)) +
+                    " ago"
+                );
+                resolve("resolved");
+              }.bind(this)
+            );
+          });
+        }
+      });
     });
   }
   // make it work on click after getting API

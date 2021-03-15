@@ -15,37 +15,37 @@
 <body class="bg-gray-100">
     <div id="tasks" class="hidden">
 
-        <div id="task_cards" class="mx-auto flex flex-row flex-wrap min-h-screen justify-center py-6">
+        <div id="task_cards" class="flex flex-row flex-wrap justify-center min-h-screen py-6 mx-auto">
 
 
             <div id="addNewTaskUI"
-                class="m-5 bg-gray-100 p-5 w-1/5 h-25 border-2 border-dashed flex items-center justify-center cursor-pointer">
+                class="flex items-center justify-center w-1/5 p-5 m-5 bg-gray-100 border-2 border-dashed cursor-pointer h-25">
 
-                <div class="w-1/2 h-1/2 text-center text-gray-300">
+                <div class="w-1/2 text-center text-gray-300 h-1/2">
                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         stroke="currentColor" viewbox="0 0 24 24">
                         <path d="M12 4v16m8-8H4"></path>
                     </svg>
-                    <h3 class="text-lg  text-gray-400"> Add New</h3>
+                    <h3 class="text-lg text-gray-400"> Add New</h3>
                 </div>
 
             </div>
 
 
             <!-- tasks Block -->
-            <div class="js__tasks_card relative m-5 bg-white shadow-md w-1/5 h-25">
+            <div class="relative w-1/5 m-5 bg-white shadow-md js__tasks_card h-25">
 
                 <div
-                    class="overflow__block  p-5  h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+                    class="p-5 overflow-y-auto scrolling-touch overflow__block h-25 scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
 
                     <div class="content">
                         <div class="header">
-                            <p class="text-gray-400 tracking-wide">MY TASKS</p>
+                            <p class="tracking-wide text-gray-400">MY TASKS</p>
 
 
-                            <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                            <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
                                 <span
-                                    class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                                    class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
                                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         stroke="currentColor" viewbox="0 0 24 24">
                                         <path d="M12 4v16m8-8H4"></path>
@@ -53,7 +53,7 @@
                                 </span>
                                 <input type="text" id="todo_title" name="todo_title" placeholder="Add new task..."
                                     autocomplete="off"
-                                    class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                                    class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
                             </div>
 
 
@@ -65,8 +65,8 @@
                             <div class="relative" id="showtasklist">
 
                                 <div class="text-center" id="loader">
-                                    <div class="w-8 h-8 inline-block">
-                                        <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
+                                    <div class="inline-block w-8 h-8">
+                                        <div class="stroke-current"><svg class="text-red-200 stroke-current spinner"
                                                 viewbox="0 0 50 50">
                                                 <circle class="path" cx="25" cy="25" r="20" fill="none"
                                                     stroke-width="5">
@@ -92,30 +92,37 @@
     <!-- // END TASKS -->
 
     <div id="bookmarks" class="hidden">
-        <div class="flex m-16 mb-8 justify-center">
+        <div class="flex justify-center m-16 mb-8">
 
 
             <div class="relative w-1/3">
                 <span
-                    class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                    class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                 </span>
 
-                <input name="search" autocomplete="off" placeholder="Search Websites or Cards..."
-                    class="search w-full px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline pl-10" />
+                <input type="search" name="search" autocomplete="off" placeholder="Search Websites or Cards..."
+                    class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none search focus:outline-none focus:shadow-outline"
+                    list="card_categories" id="bookmark_search_input" />
+
+                <ul class="absolute z-10 hidden w-full mt-2 overflow-y-auto bg-white shadow max-h-25"
+                    id="card_categories">
+                </ul>
+                <!-- It will dynamically poulate from JS addDatalistToSearch(cardarray) -->
+
                 <div class="flex justify-center mt-5">
 
-                    <div class="bg-gray-200 text-sm text-gray-500 leading-none border-2 border-gray-200 rounded-full inline-flex"
+                    <div class="inline-flex text-sm leading-none text-gray-500 bg-gray-200 border-2 border-gray-200 rounded-full"
                         id="filter__site_cards">
                         <button
-                            class="inline-flex items-center focus:outline-none hover:text-indigo-400 focus:text-indigo-400 rounded-l-full px-4 py-2 "
+                            class="inline-flex items-center px-4 py-2 rounded-l-full focus:outline-none hover:text-indigo-400 focus:text-indigo-400 "
                             id="filter__by_starred">
 
 
-                            <svg class="fill-current w-4 h-4 mr-2" fill="none" stroke-linecap="round"
+                            <svg class="w-4 h-4 mr-2 fill-current" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
                                 <path
                                     d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z">
@@ -125,10 +132,10 @@
                             <span>Starred</span>
                         </button>
                         <button
-                            class="inline-flex items-center focus:outline-none hover:text-indigo-400 focus:text-indigo-400 rounded-r-full px-4 py-2 toggle__active"
+                            class="inline-flex items-center px-4 py-2 rounded-r-full focus:outline-none hover:text-indigo-400 focus:text-indigo-400 toggle__active"
                             id="filter__by_all">
 
-                            <svg class="stroke-current w-4 h-4 mr-2" width="24" height="24" fill="none"
+                            <svg class="w-4 h-4 mr-2 stroke-current" width="24" height="24" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor"
                                 viewbox="0 0 24 24">
                                 <path
@@ -144,16 +151,16 @@
 
         </div>
 
-        <div id="bookmark_cards" class="mx-auto flex flex-row flex-wrap min-h-screen justify-center py-6">
+        <div id="bookmark_cards" class="flex flex-row flex-wrap justify-center min-h-screen py-6 mx-auto">
 
             <!-- bookmarks block-->
 
             <!-- <div
-                class="m-5 bg-white p-5 shadow-md w-1/5 h-25 overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+                class="w-1/5 p-5 m-5 overflow-y-auto scrolling-touch bg-white shadow-md h-25 scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
 
                 <div class="content">
                     <div class="header">
-                        <p class="text-gray-400 tracking-wide">MY BOOKMARKS</p>
+                        <p class="tracking-wide text-gray-400">MY BOOKMARKS</p>
 
 
                     </div>
@@ -164,8 +171,8 @@
                         <div class="relative" id="showBookmarks">
 
                             <div class="text-center" id="b_loader">
-                                <div class="w-8 h-8 inline-block">
-                                    <div class="stroke-current"><svg class="spinner stroke-current text-red-200"
+                                <div class="inline-block w-8 h-8">
+                                    <div class="stroke-current"><svg class="text-red-200 stroke-current spinner"
                                             viewbox="0 0 50 50">
                                             <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5">
                                             </circle>
@@ -183,14 +190,14 @@
             </div> -->
 
             <div id="addNewBookmarkUI"
-                class="m-5 bg-gray-100 p-5 w-1/5 h-25 border-2 border-dashed flex items-center justify-center cursor-pointer">
+                class="flex items-center justify-center w-1/5 p-5 m-5 bg-gray-100 border-2 border-dashed cursor-pointer h-25">
 
-                <div class="w-1/2 h-1/2 text-center text-gray-300">
+                <div class="w-1/2 text-center text-gray-300 h-1/2">
                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         stroke="currentColor" viewbox="0 0 24 24">
                         <path d="M12 4v16m8-8H4"></path>
                     </svg>
-                    <h3 class="text-lg  text-gray-400"> Add New</h3>
+                    <h3 class="text-lg text-gray-400"> Add New</h3>
                 </div>
 
 
@@ -206,12 +213,12 @@
 
 
     <div id="settings" class="hidden">
-        <div class="container mx-auto flex flex-row h-screen justify-center py-6">
+        <div class="container flex flex-row justify-center h-screen py-6 mx-auto">
 
 
             <!-- tasks Block -->
             <div
-                class="bg-white p-8 shadow-md w-1/2 max-h-full overflow__block overflow-y-auto scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray scrolling-touch">
+                class="w-1/2 max-h-full p-8 overflow-y-auto scrolling-touch bg-white shadow-md overflow__block scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
 
                 <div class="content">
 
@@ -222,8 +229,8 @@
 
 
 
-                    <div class="header  text-center">
-                        <h3 class="pb-1 text-indigo-700 text-xl tracking-wide">
+                    <div class="text-center header">
+                        <h3 class="pb-1 text-xl tracking-wide text-indigo-700">
                             Mission Control</h3>
                         <p class="text-gray-500">Change Settings</p>
                         <hr class="mt-5 mb-8">
@@ -238,7 +245,7 @@
 
                     <details open>
                         <summary
-                            class="cursor-pointor block w-100 px-1 py-1 text-gray-700 font-bold text-lg tracking-wide mr-auto truncate">
+                            class="block px-1 py-1 mr-auto text-lg font-bold tracking-wide text-gray-700 truncate cursor-pointor w-100">
 
                             Sync Data to Github Gist
                         </summary>
@@ -246,31 +253,68 @@
 
 
 
-                        <div class="my-3 mb-5 p-5 bg-gray-100">
+                        <div class="p-5 my-3 mb-5 bg-gray-100">
 
                             <div class="mb-4">
-                                <label for="" class="text-base mb-2 text-gray-800 block">Github Personal Token</label>
+                                <label for="" class="block mb-2 text-base text-gray-800">Github Personal Token</label>
 
 
                                 <input type="text" id="g__token" name="g__token" placeholder="Personal Token"
                                     autocomplete="off"
-                                    class="px-2 py-2 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                                    class="w-full px-2 py-2 text-sm text-gray-800 placeholder-gray-400 bg-white border border-gray-200 rounded shadow outline-none focus:border-gray-400 focus:outline-none ocus:shadow-outline" />
                             </div>
 
-                            <div class="mb-4 hidden">
-                                <label for="" class="text-base mb-2 text-gray-800 block">Gist ID <a
-                                        id="delete__existing_gist" href="#!" class="text-red-700 float-right"
+                            <div class="hidden mb-4" id="gist_block">
+                                <label for="" class="block mb-2 text-base text-gray-800">Gist ID <a
+                                        id="delete__existing_gist" href="#!" class="float-right text-red-700"
                                         title="Delete this Gist to Create new Gist when syncing"><small>Delete this
                                             Gist</small></a></label>
 
 
                                 <input type="text" id="g__id" name="g__id" disabled
                                     placeholder="You may keep it blank. " autocomplete="off"
-                                    class="px-2 py-2 disabled:opacity-75 placeholder-gray-400 text-gray-800 bg-white bg-white rounded border border-gray-200 shadow focus:border-gray-400 text-sm outline-none focus:outline-none ocus:shadow-outline w-full" />
+                                    class="w-full px-2 py-2 text-sm text-gray-800 placeholder-gray-400 bg-white border border-gray-200 rounded shadow outline-none disabled:opacity-75 focus:border-gray-400 focus:outline-none ocus:shadow-outline" />
+                            </div>
+                            <!-- Exsiting Gist ID -->
+                            <div class="hidden mb-4" id="importbackupBlock">
+                                <label for="" class="block mb-2 text-base text-gray-800">Existing Gist ID <span
+                                        class="inline-block w-4 h-4 pt-1 text-gray-500"
+                                        title="Open your backup gist in browser. Copy the part after your username/">
+                                        <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path
+                                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                            </path>
+                                        </svg>
+
+                                    </span> </label>
+
+
+                                <input type="text" id="ex-g__id" name="ex-g__id" placeholder="Your Existing Gist ID "
+                                    autocomplete="off"
+                                    class="w-full px-2 py-2 text-sm text-gray-800 placeholder-gray-400 bg-white border border-gray-200 rounded shadow outline-none disabled:opacity-75 focus:border-gray-400 focus:outline-none ocus:shadow-outline" />
+
+                                <div class="flex items-center mt-3">
+                                    <button id="g__importData"
+                                        class="inline-flex px-4 py-2 mb-1 mr-2 text-xs font-bold text-white uppercase bg-gray-800 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
+                                        type="button" style="transition: all .15s ease">
+
+                                        <svg class="w-4 h-4 mr-2 stroke-current" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                        <span>Import Data
+                                        </span>
+                                    </button>
+                                    <span class="text-red-600">This will delete all existing data</span>
+                                </div>
+
+
                             </div>
 
 
-                            <div class="mb-4">
+                            <div class="flex justify-between mb-4">
                                 <label class="block text-gray-800" for="g__public"
                                     title="Only Available while creating new Gist.">
                                     <input class="leading-tight" type="checkbox" id="g__public" name="g__public">
@@ -287,11 +331,15 @@
                                         </span>
                                     </span>
                                 </label>
+
+                                <a href="#" id="importBackupTrigger"
+                                    class="text-sm text-blue-600 border-b-2 border-blue-200">Import
+                                    Backup</a>
                             </div>
 
-                            <div class=" px-6 py-4  rounded mb-4 bg-gray-200">
-                                <h4 class="text-gray-600 mb-2"><strong>How to create a Github Token?</strong></h4>
-                                <p class=" text-gray-600 ">
+                            <div class="px-6 py-4 mb-4 bg-gray-200 rounded ">
+                                <h4 class="mb-2 text-gray-600"><strong>How to create a Github Token?</strong></h4>
+                                <p class="text-gray-600 ">
 
                                     Click this <strong> <a href="https://github.com/settings/tokens/new"
                                             class="text-blue-600">Generate
@@ -305,7 +353,7 @@
                             <div class="flex">
 
                                 <button id="g__syncData"
-                                    class="inline-flex mr-auto bg-indigo-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                    class="inline-flex px-4 py-2 mb-1 mr-1 mr-auto text-xs font-bold text-white uppercase bg-indigo-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
                                     type="button" style="transition: all .15s ease">
                                     <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" stroke-width="2" stroke="currentColor"
@@ -319,7 +367,7 @@
                                 </button>
 
                                 <button id="download__as_json"
-                                    class="inline-flex bg-gray-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                                    class="inline-flex px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase bg-gray-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
                                     type="button" style="transition: all .15s ease">
                                     <svg class="w-4 h-4 mr-2 stroke-current" fill="none" stroke-linecap="round"
                                         stroke-linejoin="round" stroke-width="2" stroke="currentColor"
@@ -350,9 +398,9 @@
     </div>
 
 
-    <div class="fixed left-0 top-0 m-4">
+    <div class="fixed top-0 left-0 m-4">
 
-        <div id="showSettings" class="w-12 h-12 p-3 m-1 bg-white shadow-sm rounded-full overflow-hidden">
+        <div id="showSettings" class="w-12 h-12 p-3 m-1 overflow-hidden bg-white rounded-full shadow-sm">
 
 
 
@@ -383,12 +431,12 @@
     </div>
 
 
-    <div class="fixed right-0 bottom-0 m-4">
+    <div class="fixed bottom-0 right-0 m-4">
 
 
         <!-- <a class="link-to-download" href="download" download="export.json"></a> -->
 
-        <!-- <div id="ExportData" class="w-12 h-12 p-3 m-1 bg-white shadow-sm rounded-full overflow-hidden"
+        <!-- <div id="ExportData" class="w-12 h-12 p-3 m-1 overflow-hidden bg-white rounded-full shadow-sm"
             data="Export Data">
 
 
@@ -415,14 +463,14 @@
 
 
 
-        <div id="defaultViewToggle" class="w-12 h-12 p-3 m-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden"
+        <div id="defaultViewToggle" class="w-12 h-12 p-3 m-1 overflow-hidden bg-indigo-500 rounded-full shadow-sm"
             data="Toggle View">
             <a href=" #!" class="text-white">
 
 
                 <!-- Task -->
 
-                <span class="stroke-current hidden" data-pref="tasks"><svg fill="none" stroke-linecap="round"
+                <span class="hidden stroke-current" data-pref="tasks"><svg fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
                         <path
                             d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
@@ -430,7 +478,7 @@
                     </svg></span>
 
                 <!-- Bookmarks -->
-                <span class="stroke-current hidden" data-pref="bookmarks"><svg fill="none" stroke-linecap="round"
+                <span class="hidden stroke-current" data-pref="bookmarks"><svg fill="none" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
                         <path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                     </svg></span>
@@ -456,14 +504,14 @@ Modal  -->
 
     <!--Modal-->
     <div
-        class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-10">
-        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        class="fixed top-0 left-0 z-10 flex items-center justify-center w-full h-full opacity-0 pointer-events-none modal">
+        <div class="absolute w-full h-full bg-gray-900 opacity-50 modal-overlay"></div>
 
-        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="z-50 w-11/12 mx-auto overflow-y-auto bg-white rounded shadow-lg modal-container md:max-w-md">
 
             <div
-                class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                class="absolute top-0 right-0 z-50 flex flex-col items-center mt-4 mr-4 text-sm text-white cursor-pointer modal-close">
+                <svg class="text-white fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                     viewbox="0 0 18 18">
                     <path
                         d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -473,12 +521,12 @@ Modal  -->
             </div>
 
             <!-- Add margin if you want to see some of the overlay behind the modal-->
-            <div class="modal-content py-4 text-left px-6">
+            <div class="px-6 py-4 text-left modal-content">
                 <!--Title-->
-                <div class="flex justify-between items-center pb-3">
+                <div class="flex items-center justify-between pb-3">
                     <p class="text-2xl font-bold">Add Website</p>
-                    <div class="modal-close cursor-pointer z-50">
-                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    <div class="z-50 cursor-pointer modal-close">
+                        <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewbox="0 0 18 18">
                             <path
                                 d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
@@ -491,9 +539,9 @@ Modal  -->
 
                 <form id="addBookmarkform">
 
-                    <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                    <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
                         <span
-                            class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
                             <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 stroke="currentColor" viewbox="0 0 24 24">
                                 <path
@@ -504,16 +552,16 @@ Modal  -->
 
                         <input type="url" required id="bookmark_url" name="bookmark_url" placeholder="URL"
                             autocomplete="off"
-                            class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
 
 
 
                     </div>
 
 
-                    <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                    <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
                         <span
-                            class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
                             <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 stroke="currentColor" viewbox="0 0 24 24">
                                 <path
@@ -524,16 +572,16 @@ Modal  -->
 
                         <input type="text" required id="bookmark_title" name="bookmark_title" maxlength="100"
                             autocomplete="off" placeholder="Enter Title"
-                            class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
 
 
 
                     </div>
 
 
-                    <div class="relative flex w-full flex-wrap items-stretch my-3 mb-5">
+                    <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
                         <span
-                            class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-8 pl-3 py-3">
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
                             <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 stroke="currentColor" viewbox="0 0 24 24">
                                 <path
@@ -544,7 +592,7 @@ Modal  -->
 
                         <input type="text" id="bookmark_desc" name="bookmark_desc" autocomplete="off" maxlength="100"
                             value="" placeholder="Description or Tags (optional)"
-                            class="px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-10" />
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
 
                         <p class="mt-3 text-gray-500">Describe why did you save this website. It helps you to search the
                             website later even
@@ -559,10 +607,10 @@ Modal  -->
                         <input type="hidden" name="category_id" id="category_id">
 
                         <button type="submit" id="addBookmarkBtn"
-                            class="align-middle bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase align-middle bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
                             style="transition: all .15s ease">
                             <span class="">
-                                <svg class="w-4 h-4 inline-block relative -mt-1" fill="none" stroke-linecap="round"
+                                <svg class="relative inline-block w-4 h-4 -mt-1" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
                                     <path d="M12 4v16m8-8H4"></path>
                                 </svg>
@@ -579,9 +627,9 @@ Modal  -->
                 <!--Footer-->
                 <!-- <div class="flex justify-end pt-2">
                     <button
-                        class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button>
+                        class="p-3 px-4 mr-2 text-indigo-500 bg-transparent rounded-lg hover:bg-gray-100 hover:text-indigo-400">Action</button>
                     <button
-                        class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+                        class="p-3 px-4 text-white bg-indigo-500 rounded-lg modal-close hover:bg-indigo-400">Close</button>
                 </div> -->
 
             </div>
@@ -592,7 +640,7 @@ Modal  -->
 End Modal -->
 
 
-    <div class="footer text-center fixed bottom-0 p-3 text-gray-500 hover:text-gray-800">
+    <div class="fixed bottom-0 p-3 text-center text-gray-500 footer hover:text-gray-800">
         <p>Made with &hearts; by <a href="https://web3canvas.com/" target="_blank"> Surjith S M</a> &middot; <a
                 href="https://github.com/surjithctly/mission-control" target="_blank">Github</a> &middot; <a
                 href="https://github.com/surjithctly/mission-control/issues" target="_blank">Help</a>
