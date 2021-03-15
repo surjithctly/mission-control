@@ -2,31 +2,55 @@
   "use strict";
 
   // Calc Time Since for Github Last Sync
-  function timeSince(date) {
+
+  var timeSince = function (date) {
+    if (typeof date !== "object") {
+      date = new Date(date);
+    }
+
     var seconds = Math.floor((new Date() - date) / 1000);
+    var intervalType;
 
     var interval = Math.floor(seconds / 31536000);
-    if (interval > 1) {
-      return interval + " years";
+    if (interval >= 1) {
+      intervalType = "year";
+    } else {
+      interval = Math.floor(seconds / 2592000);
+      if (interval >= 1) {
+        intervalType = "month";
+      } else {
+        interval = Math.floor(seconds / 86400);
+        if (interval >= 1) {
+          intervalType = "day";
+        } else {
+          interval = Math.floor(seconds / 3600);
+          if (interval >= 1) {
+            intervalType = "hour";
+          } else {
+            interval = Math.floor(seconds / 60);
+            if (interval >= 1) {
+              intervalType = "minute";
+            } else {
+              interval = interval;
+              if (interval < 5) {
+                interval = "few";
+                intervalType = "second";
+              } else {
+                interval = interval;
+                intervalType = "second";
+              }
+            }
+          }
+        }
+      }
     }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return interval + " months";
+
+    if (interval > 1 || interval === 0 || interval === "few") {
+      intervalType += "s";
     }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return interval + " days";
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return interval + " hours";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return interval + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
-  }
+
+    return interval + " " + intervalType;
+  };
 
   var dbName = "settings";
   var settings = new Array();
@@ -346,20 +370,30 @@
 
         exportToGithub().then(() => {
           console.log("value");
-          // expected output: "Success!"
-          for (let key in settings) {
-            if (settings.hasOwnProperty(key)) {
-              settings[key].unsaved_changes = false;
-            }
-          }
-          chrome.storage.local.set(storage, function () {
-            // do nothing
-            //console.log("done");
-          });
+          // Adding settimeout here as a HACK
+          // Something is overwriting the time. So this delay will avoid that
+          // TODO: Fix later
+          setTimeout(() => {
+            chrome.storage.local.get(null, function (newstorage) {
+              console.log("newstorage", newstorage);
+              const newsettings = newstorage["settings"];
+              console.log("newsettings", newsettings);
+              // expected output: "Success!"
+              for (let key in newsettings) {
+                if (newsettings.hasOwnProperty(key)) {
+                  newsettings[key].unsaved_changes = false;
+                }
+              }
+              chrome.storage.local.set({ settings: newsettings }, function () {
+                // do nothing
+                //console.log("done");
+              });
+            });
+          }, 5000);
         });
       }
     });
-  }, 5000);
+  }, 60000);
 
   function exportToGithub() {
     return new Promise((resolve) => {
@@ -428,7 +462,7 @@
               function () {
                 $("#last_sync_info").text(
                   "Last Synced " +
-                    timeSince(new Date(settings[0].last_sync)) +
+                    timeSince(new Date(storage.settings[0].last_sync)) +
                     " ago"
                 );
                 resolve("resolved");
