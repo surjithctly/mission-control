@@ -30,6 +30,26 @@
 
   /*
    * -----------------------------------------------------------------------------------
+   * // Utils Functions
+   * //  random hex string generator
+   * // Used to provide unique ID to Cards & Sites
+   * -----------------------------------------------------------------------------------
+   */
+
+  var randHex = function (len) {
+    var maxlen = 8,
+      min = Math.pow(16, Math.min(len, maxlen) - 1),
+      max = Math.pow(16, Math.min(len, maxlen)) - 1,
+      n = Math.floor(Math.random() * (max - min + 1)) + min,
+      r = n.toString(16);
+    while (r.length < len) {
+      r = r + randHex(len - maxlen);
+    }
+    return r;
+  };
+
+  /*
+   * -----------------------------------------------------------------------------------
    * // SET UNSAVED TO TRUE
    * // To Sync with Github
    * -----------------------------------------------------------------------------------
@@ -62,22 +82,141 @@
    * -----------------------------------------------------------------------------------
    */
   //   var storage = {};
-  var dbName = "todo_list";
-  var tasksList = new Array();
+  const dbName = "todo_list";
+  let tasksList = new Array();
   chrome.storage.local.get(dbName, function (storage) {
     if (dbName in storage) {
       tasksList = storage[dbName];
       $("#loader").hide();
     } else {
+      // user is first time or database not found
       storage = {};
       storage[dbName] = [];
+
+      // sample Tasks to start with
+      const todaytasks = [
+        {
+          completed: true,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Install Mission Control",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Add New Tasks for Today",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Add New Bookmarks",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Share this extension",
+        },
+      ];
+
+      const tomorrowtasks = [
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Your Tasks for Tomorrow",
+        },
+        {
+          completed: true,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Mark it as completed",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Try Drag & Drop",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Delete these tasks",
+        },
+      ];
+
+      const latertasks = [
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Tasks without a date",
+        },
+        {
+          completed: true,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Create as many cards you like",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "You may also backup to Github",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Organize your bookmarks",
+        },
+      ];
+
+      // Create New Category
+      var newCat = [
+        {
+          label: "Today",
+          starred: false,
+          id: 1,
+          cid: randHex(24),
+          date: new Date().getTime(),
+          tasks: todaytasks,
+        },
+        {
+          label: "Next",
+          starred: false,
+          id: 2,
+          cid: randHex(24),
+          date: new Date().getTime(),
+          tasks: tomorrowtasks,
+        },
+        {
+          label: "Later",
+          starred: false,
+          id: 3,
+          cid: randHex(24),
+          date: new Date().getTime(),
+          tasks: latertasks,
+        },
+      ];
+      // push to the storage
+
+      for (var i = 0; i < newCat.length; i++) {
+        //newwebsites.push(i);
+        storage[dbName].push(newCat[i]);
+      }
+
       chrome.storage.local.set(storage, function () {}.bind(this));
       $("#loader").hide();
     }
     console.log(tasksList);
     //displaying the old items
     for (var i = 0; i < tasksList.length; i++) {
-      addListItem(tasksList[i]);
+      console.log(tasksList[i]);
+      addTaskCards(tasksList[i]);
     }
   });
 
@@ -107,7 +246,69 @@
     }
   });
 
-  const TaskTemplate = ({ task_id, task_completed, task_title }) => `
+  const newCardTemplate = ({
+    card_title,
+    card_id,
+    starred,
+    tasks,
+  }) => ` <!-- tasks Block -->
+  <div class="js__tasks_card relative w-1/5 m-5 bg-white shadow-md  h-25 ${
+    starred ? "starred border-t-4 border-red-300" : ""
+  }" data-card="${card_id}" data-star="${starred}">
+
+      <div
+          class="p-5 overflow-y-auto scrolling-touch overflow__block h-25 scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
+
+          <div class="content">
+              <div class="header">
+                  <p class="tracking-wide text-gray-400">${card_title}</p>
+
+
+                  <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
+                      <span
+                          class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
+                          <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              stroke="currentColor" viewbox="0 0 24 24">
+                              <path d="M12 4v16m8-8H4"></path>
+                          </svg>
+                      </span>
+                      <input type="text" id="todo_title" name="todo_title" placeholder="Add new task..."
+                          autocomplete="off"
+                          class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
+                  </div>
+
+
+              </div>
+          </div>
+          <div class="content">
+              <div class="ui small feed">
+
+                  <div class="relative">
+<!--
+                      <div class="text-center" id="loader">
+                          <div class="inline-block w-8 h-8">
+                              <div class="stroke-current"><svg class="text-red-200 stroke-current spinner"
+                                      viewbox="0 0 50 50">
+                                      <circle class="path" cx="25" cy="25" r="20" fill="none"
+                                          stroke-width="5">
+                                      </circle>
+                                  </svg></div>
+                          </div>
+                      </div> -->
+
+                      ${tasks}
+                  </div>
+
+
+              </div>
+          </div>
+
+
+
+      </div>
+  </div>`;
+
+  const TaskTemplate = ({ task_id, task_title, task_completed }) => `
 
   <div class="item flex flex-row align-middle items-middle items-center hover:bg-gray-100 py-1 -mx-5 px-5 ${task_completed}"
   data-id="${task_id}">
@@ -137,31 +338,50 @@
 
 `;
 
-  function addListItem(tasksList) {
-    // $("#showtasklist").prepend(
-    //   '    <div data-id="' +
-    //     tasksList.id +
-    //     '" class="item ' +
-    //     (tasksList.completed == 0 ? "active" : "completed") +
-    //     ' ">  <div class="ui checkbox">  <input type="checkbox" tabindex="0" class="hidden">  <label>' +
-    //     tasksList.title +
-    //     '</label>  </div> <a href="#!"><i class="close icon right floated">X</i></a><div class="content">  </div> </div> '
-    // );
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Function to Add Cards to DOM
+   * // It will fetch the Card Template from above
+   * -----------------------------------------------------------------------------------
+   */
 
-    $("#showtasklist").prepend(
+  function addTaskCards(taskarray) {
+    var tasklist = addCardLists(taskarray.tasks);
+
+    $("#task_cards").append(
       [
         {
-          task_id: tasksList.id,
-          task_completed: tasksList.completed == 0 ? "active" : "completed",
-          task_title: tasksList.title,
+          card_title: taskarray.label,
+          card_id: taskarray.cid,
+          starred: taskarray.starred,
+          tasks: tasklist,
         },
       ]
-        .map(TaskTemplate)
+        .map(newCardTemplate)
         .join("")
     );
-
-    $("#loader").hide();
   }
+
+  function addCardLists(task) {
+    var tasklist = "";
+    // console.log("task");
+    for (var i = 0; i < task.length; i++) {
+      //addSiteCards(cardarray[i]);
+      tasklist =
+        [
+          {
+            task_id: task[i].id,
+            task_title: task[i].title,
+            task_completed: task[i].completed ? "completed" : "active",
+          },
+        ]
+          .map(TaskTemplate)
+          .join("") + tasklist;
+    }
+    return tasklist;
+  }
+
+  /* END */
 
   $("#showtasklist").on("click", "a", function () {
     var chosenID = $(this).closest(".item").data("id");
