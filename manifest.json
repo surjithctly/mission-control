@@ -10,7 +10,6 @@
     ],
     "manifest_version": 3,
     "short_name": "Mission Control",
-    //"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
 
     "background": {
         "service_worker": "background.js"

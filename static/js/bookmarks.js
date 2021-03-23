@@ -135,7 +135,7 @@
   const newCardTemplate = ({ card_title, card_id, websites, starred }) => `
 
   <div
-  class="js__bookamrk_card relative m-5 bg-white shadow-md w-1/5 h-25 ${
+  class="js__bookamrk_card relative bg-white shadow-md  h-25 ${
     starred ? "starred border-t-4 border-red-300" : ""
   }" data-card="${card_id}" data-star="${starred}">
 
@@ -151,7 +151,7 @@
   <circle cx="5" cy="11" r="1" fill="currentcolor"/>
   <circle cx="5" cy="16" r="1" fill="currentcolor"/>
   </svg></span>
-  <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
+  <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400 text-gray-700 relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
   <p class="px-1 py-1 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
   <div class="card__actions flex">
   <a href="#!" class="modal-open js__add_bookmark my-1 block w-6 h-6 p-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden text-white" title="Add New Bookmark">
@@ -626,6 +626,8 @@ data-id="${bookmarks_id}">
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+    $("#addBookmarkform").toggleClass("hidden");
+    $("#dynamicModalTitle").text("Add Website");
     console.log("Toggle Modal");
     if (body.classList.contains("modal-active")) getClipboardContents();
   }

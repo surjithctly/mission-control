@@ -22,12 +22,17 @@
     }
   };
 
+  // Hiding model only
+  // by clicking outside or close button or esc
   function toggleModal() {
     const body = document.querySelector("body");
     const modal = document.querySelector(".modal");
     modal.classList.toggle("opacity-0");
     modal.classList.toggle("pointer-events-none");
     body.classList.toggle("modal-active");
+    $("#addtaskform").addClass("hidden");
+    $("#addBookmarkform").addClass("hidden");
     $("#addBookmarkform")[0].reset();
+    $("#addtaskform")[0].reset();
   }
 })();

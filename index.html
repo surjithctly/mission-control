@@ -15,7 +15,8 @@
 <body class="bg-gray-100">
     <div id="tasks" class="hidden">
 
-        <div id="task_cards" class="flex flex-row flex-wrap items-center justify-center min-h-screen py-6 mx-auto">
+        <div id="task_cards"
+            class="flex flex-row flex-wrap items-center justify-center max-w-6xl min-h-screen py-6 mx-auto">
 
             <!-- 
             <div id="addNewTaskUI"
@@ -103,7 +104,8 @@
 
         </div>
 
-        <div id="bookmark_cards" class="flex flex-row flex-wrap justify-center min-h-screen py-6 mx-auto">
+        <div id="bookmark_cards"
+            class="grid justify-center min-h-screen grid-cols-4 gap-8 px-10 py-6 mx-auto xl:px-0 max-w-screen-2xl">
 
             <!-- bookmarks block-->
 
@@ -142,7 +144,7 @@
             </div> -->
 
             <div id="addNewBookmarkUI"
-                class="flex items-center justify-center w-1/5 p-5 m-5 bg-gray-100 border-2 border-dashed cursor-pointer h-25">
+                class="flex items-center justify-center p-5 bg-gray-100 border-2 border-dashed cursor-pointer h-25">
 
                 <div class="w-1/2 text-center text-gray-300 h-1/2">
                     <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,11 +175,6 @@
                 class="w-1/2 max-h-full p-8 overflow-y-auto scrolling-touch bg-white shadow-md overflow__block scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
 
                 <div class="content">
-
-
-
-
-
 
 
 
@@ -476,7 +473,7 @@ Modal  -->
             <div class="px-6 py-4 text-left modal-content">
                 <!--Title-->
                 <div class="flex items-center justify-between pb-3">
-                    <p class="text-2xl font-bold">Add Website</p>
+                    <p class="text-2xl font-bold" id="dynamicModalTitle">Add New</p>
                     <div class="z-50 cursor-pointer modal-close">
                         <svg class="text-black fill-current" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
                             viewbox="0 0 18 18">
@@ -487,9 +484,9 @@ Modal  -->
                     </div>
                 </div>
 
-                <!--Body-->
+                <!--Body : Add Bookmark Form-->
 
-                <form id="addBookmarkform">
+                <form id="addBookmarkform" class="hidden">
 
                     <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
                         <span
@@ -574,6 +571,112 @@ Modal  -->
 
 
                 </form>
+
+                <!--Body : Add Task Form-->
+
+                <form id="addtaskform" class="hidden">
+
+                    <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
+                        <span
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
+
+                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                stroke="currentColor" viewbox="0 0 24 24">
+                                <path d="M12 4v16m8-8H4"></path>
+                            </svg>
+
+                        </span>
+
+                        <input type="text" required id="todo_title" name="todo_title" placeholder="Enter Task Name"
+                            autocomplete="off"
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline" />
+
+
+
+                    </div>
+
+
+                    <!-- <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
+                        <span
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                                </path>
+                            </svg>
+                        </span>
+
+
+                        <select required name="task_project" id="task_project"
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline">
+                            <option disabled selected>Choose a Project</option>
+                            <option value="10">10 Minutes</option>
+                            <option value="15">15 Minutes</option>
+                            <option value="10">20 Minutes</option>
+                            <option value="30">30 Minutes</option>
+                            <option value="45">45 Minutes</option>
+                            <option value="60">1 hour</option>
+                        </select>
+
+
+
+                    </div> -->
+
+
+                    <div class="relative flex flex-wrap items-stretch w-full my-3 mb-5">
+                        <span
+                            class="absolute z-10 items-center justify-center w-8 h-full py-3 pl-3 text-base font-normal leading-snug text-center text-gray-400 bg-transparent rounded">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </span>
+
+
+                        <select required name="task_time" id="task_time"
+                            class="relative w-full px-3 py-3 pl-10 text-sm text-gray-700 placeholder-gray-400 bg-white rounded shadow outline-none focus:outline-none focus:shadow-outline">
+                            <option disabled selected value="">Approx Time to finish this task</option>
+                            <option value="10">10 Minutes</option>
+                            <option value="15">15 Minutes</option>
+                            <option value="10">20 Minutes</option>
+                            <option value="30">30 Minutes</option>
+                            <option value="45">45 Minutes</option>
+                            <option value="60">1 hour</option>
+                        </select>
+
+                        <p class="mt-3 text-gray-500">If your task is greater than one hour, we recommend to break into
+                            multiple tasks to improve productivity.</p>
+                    </div>
+
+
+
+
+                    <div class="text-center">
+
+                        <input type="hidden" name="task_category_id" id="task_category_id">
+
+                        <button type="submit" id="addTaskBtn"
+                            class="px-4 py-2 mb-1 mr-1 text-xs font-bold text-white uppercase align-middle bg-pink-500 rounded shadow outline-none active:bg-pink-600 hover:shadow-md focus:outline-none"
+                            style="transition: all .15s ease">
+                            <span class="">
+                                <svg class="relative inline-block w-4 h-4 -mt-1" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewbox="0 0 24 24">
+                                    <path d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </span> Add Task
+                        </button>
+                    </div>
+
+
+
+
+                </form>
+
 
 
                 <!--Footer-->
