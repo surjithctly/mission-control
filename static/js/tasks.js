@@ -267,7 +267,7 @@
     tasks,
     showCompleted,
   }) => ` <!-- tasks Block -->
-  <div class="js__tasks_card relative w-full sm:w-1/3 lg:w-1/3 m-5 bg-white shadow-md  h-25 ${
+  <div class="js__tasks_card relative w-full bg-white shadow-md  h-25 ${
     starred ? "starred border-t-4 border-red-300" : ""
   } ${
     showCompleted ? "" : "hide_completed"
@@ -277,7 +277,7 @@
           class="p-5 overflow-y-auto scrolling-touch overflow__block h-25 scrollbar-w-2 scrollbar-track-gray-lighter scrollbar-thumb-rounded scrollbar-thumb-gray">
 
           <div class="header flex relative grabbable items-center mb-3 ">
-          <span class="draggable-svg absolute text-gray-400 z-10 grabbable"><svg xmlns="http://www.w3.org/2000/svg" width="6" height="17" viewBox="0 0 6 17" fill="none">
+         <!-- <span class="draggable-svg absolute text-gray-400 z-10 grabbable"><svg xmlns="http://www.w3.org/2000/svg" width="6" height="17" viewBox="0 0 6 17" fill="none">
           <circle cx="1" cy="1" r="1" fill="currentcolor"/>
           <circle cx="1" cy="6" r="1" fill="currentcolor"/>
           <circle cx="1" cy="11" r="1" fill="currentcolor"/>
@@ -286,9 +286,10 @@
           <circle cx="5" cy="6" r="1" fill="currentcolor"/>
           <circle cx="5" cy="11" r="1" fill="currentcolor"/>
           <circle cx="5" cy="16" r="1" fill="currentcolor"/>
-          </svg></span>
-          <input type="text" class="hidden js__card_title_input px-1 py-1 text-lg tracking-wide text-gray-700 placeholder-gray-400  relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Ente Card Titile" name="card_title" value="${card_title}">
-          <p class="px-1 py-1 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
+          </svg></span> -->
+          
+          <input type="text" class="hidden js__card_title_input px-1 py-1 tracking-wide text-gray-700 placeholder-gray-400  relative bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-64  mr-auto" plaseholder="Enter Card Titile" name="card_title" value="${card_title}">
+          <p class="px-1 py-1 pl-0 cursor-pointer text-gray-500 js__card_title_text text-lg tracking-wide mr-auto truncate w-64" title="Click to Edit">${card_title}</p>
           <div class="card__actions flex">
           <a href="#!" class="modal-open js__add_tasks my-1 block w-6 h-6 p-1 bg-indigo-500 shadow-sm rounded-full overflow-hidden text-white" title="Add New Task">
           <span><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg> </span></a>
@@ -320,10 +321,10 @@
           </div>
 
           
-          <div class="content">
+          <div class="content ">
               <div class="ui small feed">
 
-                  <div class="relative">
+                  <div class="relative js_content">
 <!--
                       <div class="text-center" id="loader">
                           <div class="inline-block w-8 h-8">
@@ -350,14 +351,25 @@
 
   const TaskTemplate = ({ task_id, task_title, task_completed }) => `
 
-  <div class="item flex flex-row align-middle items-middle items-center  hover:bg-gray-100 py-2 -mx-5 px-5 ${task_completed}"
+  <div class="item flex flex-row align-middle items-middle items-center relative  hover:bg-gray-100 py-2 -mx-5 px-5 ${task_completed}"
   data-id="${task_id}">
 
+  <span class="draggable-tasks absolute text-gray-400 z-10 grabbable"><svg xmlns="http://www.w3.org/2000/svg" width="6" height="17" viewBox="0 0 6 17" fill="none">
+  <circle cx="1" cy="1" r="1" fill="currentcolor"></circle>
+  <circle cx="1" cy="6" r="1" fill="currentcolor"></circle>
+  <circle cx="1" cy="11" r="1" fill="currentcolor"></circle>
+  <circle cx="1" cy="16" r="1" fill="currentcolor"></circle>
+  <circle cx="5" cy="1" r="1" fill="currentcolor"></circle>
+  <circle cx="5" cy="6" r="1" fill="currentcolor"></circle>
+  <circle cx="5" cy="11" r="1" fill="currentcolor"></circle>
+  <circle cx="5" cy="16" r="1" fill="currentcolor"></circle>
+  </svg></span>
+
   <div
-      class="checkbox border border-gray-400 rounded-full flex justify-center items-center w-6 h-6 bg-gray-100 text-black cursor-pointer hover:bg-white">
+      class="checkbox border border-gray-400 rounded-full flex justify-center items-center w-6 h-6 bg-gray-100 text-gray-400 cursor-pointer hover:bg-white">
    
 
-      <svg id="check-icon" class="check-icon" width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg id="check-icon" class="check-icon mt-px" width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.65188 0.901926C8.81807 0.737186 9.04242 0.644471 9.27642 0.643826C9.51043 0.64318 9.73528 0.734656 9.90238 0.898476C10.0695 1.0623 10.1654 1.2853 10.1694 1.51927C10.1734 1.75324 10.0851 1.97938 9.92369 2.1488L5.18319 8.07443C5.10172 8.16218 5.00339 8.2326 4.89407 8.28149C4.78476 8.33037 4.66671 8.35671 4.54699 8.35892C4.42727 8.36114 4.30832 8.33919 4.19728 8.29439C4.08623 8.24959 3.98536 8.18285 3.90069 8.09818L0.759754 4.95605C0.672251 4.87451 0.602067 4.77619 0.553389 4.66694C0.504711 4.55769 0.478536 4.43976 0.476426 4.32017C0.474317 4.20059 0.496315 4.0818 0.541108 3.9709C0.585902 3.86001 0.652574 3.75927 0.737146 3.67469C0.821718 3.59012 0.922458 3.52345 1.03336 3.47866C1.14426 3.43386 1.26304 3.41186 1.38262 3.41397C1.50221 3.41608 1.62014 3.44226 1.72939 3.49094C1.83864 3.53961 1.93697 3.6098 2.0185 3.6973L4.50513 6.18274L8.62813 0.928051C8.63552 0.918883 8.64345 0.910159 8.65188 0.901926ZM7.55938 7.00567L8.65188 8.09818C8.73653 8.18267 8.83732 8.24925 8.94826 8.29394C9.0592 8.33863 9.178 8.36052 9.29757 8.35831C9.41716 8.35609 9.53506 8.32981 9.64427 8.28104C9.75347 8.23227 9.85173 8.162 9.93319 8.07443L14.6737 2.1488C14.7588 2.06473 14.8262 1.96436 14.8717 1.85368C14.9172 1.743 14.9399 1.62429 14.9385 1.50463C14.9371 1.38497 14.9116 1.26682 14.8636 1.15724C14.8155 1.04765 14.7458 0.948876 14.6587 0.866811C14.5716 0.784746 14.4689 0.721074 14.3567 0.679598C14.2444 0.638121 14.125 0.61969 14.0054 0.625406C13.8859 0.631122 13.7687 0.660868 13.661 0.712867C13.5532 0.764865 13.457 0.83805 13.3781 0.928051L9.25394 6.18274L8.678 5.60561L7.55819 7.00567H7.55938Z" fill="currentColor"/>
 </svg>
 
@@ -613,6 +625,223 @@
   });
 
   /* END */
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Complete Tasks
+   * -----------------------------------------------------------------------------------
+   */
+
+  $("#task_cards").on("click", ".checkbox", function () {
+    var chosenID = $(this).closest(".item").data("id");
+
+    var $closestcard = $(this).closest(".js__tasks_card");
+    var catid = $closestcard.data("card");
+    //removeItem(chosenID);
+    updateCompleted(chosenID, catid);
+    $(this).closest(".item").toggleClass("completed");
+    //console.log(chosenID);
+  });
+
+  function updateCompleted(chosenID, catid) {
+    console.log("setting completed");
+    chrome.storage.local.get([dbName], function (storage) {
+      var tasksList = storage[dbName];
+      var selectCatID;
+      console.log("heree", tasksList);
+
+      for (let key in tasksList) {
+        if (tasksList.hasOwnProperty(key)) {
+          if (catid === tasksList[key].cid) {
+            selectCatID = tasksList[key].tasks;
+            console.log("okaay", selectCatID);
+            for (let property in tasksList[key].tasks) {
+              if (tasksList[key].tasks.hasOwnProperty(property)) {
+                if (chosenID === tasksList[key].tasks[property].id) {
+                  //done
+                  tasksList[key].tasks[property].completed = !tasksList[key]
+                    .tasks[property].completed;
+                  break;
+                }
+              }
+            }
+
+            console.log(tasksList);
+
+            break;
+          }
+        }
+      }
+
+      console.log("if end");
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
+        console.log("storage set", tasksList);
+      });
+    });
+  }
+
+  /* END */
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Rename Tasks
+   * -----------------------------------------------------------------------------------
+   */
+
+  let changingData = false;
+  $("#task_cards").on("keypress", ".js--task__title", function (e) {
+    var $closestcard = $(this).closest(".js__tasks_card");
+    var catid = $closestcard.data("card");
+    var newTitle = $(this).text();
+    console.log(newTitle);
+    var chosenID = $(this).closest(".item").data("id");
+    if (e.which == 13 && newTitle != "") {
+      e.preventDefault();
+      changingData = true;
+      updateTitle(newTitle, chosenID, catid);
+      $(this).blur();
+      changingData = false;
+    }
+  });
+
+  $("#task_cards").on("focusout", ".js--task__title", function (e) {
+    // your code here
+    var $closestcard = $(this).closest(".js__tasks_card");
+    var catid = $closestcard.data("card");
+    var newTitle = $(this).text();
+    console.log(newTitle);
+    var chosenID = $(this).closest(".item").data("id");
+    // avoid double changing
+    if (e.which !== 13 && newTitle !== "" && changingData === false) {
+      updateTitle(newTitle, chosenID, catid);
+    }
+  });
+
+  function updateTitle(newTitle, chosenID, catid) {
+    console.log("changing title");
+    chrome.storage.local.get([dbName], function (storage) {
+      var tasksList = storage[dbName];
+      var selectCatID;
+      console.log("c-title", tasksList);
+
+      for (let key in tasksList) {
+        if (tasksList.hasOwnProperty(key)) {
+          if (catid === tasksList[key].cid) {
+            selectCatID = tasksList[key].tasks;
+            console.log("okaay", selectCatID);
+            for (let property in tasksList[key].tasks) {
+              if (tasksList[key].tasks.hasOwnProperty(property)) {
+                if (chosenID === tasksList[key].tasks[property].id) {
+                  //done
+                  tasksList[key].tasks[property].title = newTitle;
+                  break;
+                }
+              }
+            }
+
+            console.log(tasksList);
+
+            break;
+          }
+        }
+      }
+
+      console.log("if end");
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
+        console.log("storage set", tasksList);
+      });
+    });
+  }
+
+  /* END */
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Remove Tasks
+   * -----------------------------------------------------------------------------------
+   */
+
+  $("#task_cards").on("click", ".remove", function () {
+    var chosenID = $(this).closest(".item").data("id");
+    var catid = $(this).closest(".js__tasks_card").data("card");
+    removeTask(chosenID, catid);
+    $(this).closest(".item").remove();
+    console.log(chosenID, catid);
+  });
+
+  function removeTask(chosenID, catid) {
+    console.log("remove task");
+    chrome.storage.local.get([dbName], function (storage) {
+      var tasksList = storage[dbName];
+      console.log(tasksList);
+
+      for (let key in tasksList) {
+        if (tasksList.hasOwnProperty(key)) {
+          if (catid === tasksList[key].cid) {
+            if (tasksList[key].tasks) {
+              console.log("sites found in this cat");
+              // var result = tasksList.websites.filter(i=>!i.errorMsg)
+
+              // console.log(result)
+
+              var NewtasksList = $.grep(tasksList[key].tasks, function (e) {
+                // console.log(e.id);
+                return e.id != chosenID;
+              });
+              tasksList[key].tasks = NewtasksList;
+              //console.log(NewtasksList);
+            }
+            break;
+          }
+        }
+      }
+
+      //  console.log(tasksList);
+
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
+        console.log(tasksList);
+        setUnsavedChanges();
+      });
+    });
+  }
+
+  /* END */
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Drag & Sort Tasks
+   * -----------------------------------------------------------------------------------
+   */
+
+  // wait for some time to dynamically load content
+  setTimeout(() => {
+    //Select our child group and make sortable
+    var child = document.getElementsByClassName("js_content");
+    for (var i = 0; i < child.length; i++) {
+      // console.log(child[i]);
+      new Sortable(child[i], {
+        group: {
+          name: "shared",
+          pull: true,
+        },
+        ghostClass: "site__is__dragging",
+        animation: 150,
+        forceFallback: true,
+        fallbackClass: "clone_card",
+        onStart: function (evt) {
+          $(".js_content").addClass("disable__hover");
+        },
+        onEnd: function (evt) {
+          $(".js_content").removeClass("disable__hover");
+          console.log(evt);
+          console.log($(evt.to).closest(".js__bookamrk_card").data("card"));
+          console.log("newidex:" + evt.oldIndex);
+          console.log("newidex:" + evt.newIndex);
+        },
+      });
+    }
+  }, 2000);
+
+  /* END */
   // ---------------------------------------------------------------------------------------------------------------------------
   // OLD SCRIPT
   $("#showtasklist").on("click", "a", function () {
@@ -620,14 +849,6 @@
     removeItem(chosenID);
     $(this).closest(".item").remove();
     console.log(chosenID);
-  });
-
-  $("#showtasklist").on("click", ".checkbox", function () {
-    var chosenID = $(this).closest(".item").data("id");
-    //removeItem(chosenID);
-    updateItem(chosenID);
-    $(this).closest(".item").toggleClass("completed");
-    //console.log(chosenID);
   });
 
   function removeItem(chosenID) {
