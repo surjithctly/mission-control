@@ -96,55 +96,55 @@
       // sample Tasks to start with
       const todaytasks = [
         {
-          completed: false,
-          id: randHex(24),
-          date: new Date().getTime(),
-          title: "Share this extension",
-        },
-        {
-          completed: false,
-          id: randHex(24),
-          date: new Date().getTime(),
-          title: "Add New Bookmarks",
-        },
-        {
-          completed: false,
-          id: randHex(24),
-          date: new Date().getTime(),
-          title: "Add New Tasks for Today",
-        },
-        {
           completed: true,
           id: randHex(24),
           date: new Date().getTime(),
           title: "Install Mission Control",
         },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Explore Bookmarks Tab",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Backup data to Github",
+        },
+        {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Share your feedback",
+        },
       ];
 
       const tomorrowtasks = [
         {
+          completed: false,
+          id: randHex(24),
+          date: new Date().getTime(),
+          title: "Your Next Set of Tasks",
+        },
+        {
           completed: true,
           id: randHex(24),
           date: new Date().getTime(),
-          title: "Mark it as completed",
+          title: "Buy me a Coffee",
         },
         {
           completed: false,
           id: randHex(24),
           date: new Date().getTime(),
-          title: "Try Drag & Drop",
+          title: "Try Drag & Drop Feature",
         },
         {
           completed: false,
           id: randHex(24),
           date: new Date().getTime(),
-          title: "Delete these tasks",
-        },
-        {
-          completed: false,
-          id: randHex(24),
-          date: new Date().getTime(),
-          title: "Your Tasks for Tomorrow",
+          title: "Share it on Social Media",
         },
       ];
 
@@ -165,7 +165,7 @@
           completed: false,
           id: randHex(24),
           date: new Date().getTime(),
-          title: "You may also backup to Github",
+          title: "Follow me on Twitter",
         },
         {
           completed: false,
@@ -423,6 +423,7 @@
     for (var i = 0; i < task.length; i++) {
       //addSiteCards(cardarray[i]);
       tasklist =
+        tasklist +
         [
           {
             task_id: task[i].id,
@@ -431,7 +432,7 @@
           },
         ]
           .map(TaskTemplate)
-          .join("") + tasklist;
+          .join("");
     }
     return tasklist;
   }
@@ -497,7 +498,8 @@
             if (catID === tasksList[key].cid) {
               if (tasksList[key].tasks) {
                 console.log("tasks found in this cat");
-                tasksList[key].tasks.push(newItem);
+                // add item in the top
+                tasksList[key].tasks.unshift(newItem);
               }
               break;
             }
@@ -833,13 +835,128 @@
         onEnd: function (evt) {
           $(".js_content").removeClass("disable__hover");
           console.log(evt);
-          console.log($(evt.to).closest(".js__bookamrk_card").data("card"));
-          console.log("newidex:" + evt.oldIndex);
+          let fromCard = $(evt.from).closest(".js__tasks_card").data("card");
+          let toCard = $(evt.to).closest(".js__tasks_card").data("card");
+          console.log(fromCard);
+          console.log(toCard);
+          console.log("oldIndex:" + evt.oldIndex);
           console.log("newidex:" + evt.newIndex);
+          sortTaskArray(evt.newIndex, evt.oldIndex, fromCard, toCard);
         },
       });
     }
   }, 2000);
+
+  function sortTaskArray(newindex, oldindex, fromCard, toCard) {
+    chrome.storage.local.get([dbName], function (storage) {
+      const originalArray = storage[dbName];
+      const event1 = { newIndex: newindex, oldIndex: oldindex };
+      let changeableArray;
+      let droppableArray;
+      if (fromCard === toCard) {
+        // Same Card ordering task
+        console.log("same card");
+
+        for (let key in originalArray) {
+          if (originalArray.hasOwnProperty(key)) {
+            if (toCard === originalArray[key].cid) {
+              changeableArray = originalArray[key].tasks;
+              console.log(changeableArray);
+              var newCardorder = reorderTaskArray(event1, changeableArray);
+              console.log(newCardorder);
+              originalArray[key].tasks = newCardorder;
+              //originalArray
+              break;
+            }
+          }
+        }
+
+        console.log("final", originalArray);
+
+        chrome.storage.local.set({ [dbName]: originalArray }, function () {
+          // console.log(newCardorder);
+          setUnsavedChanges();
+        });
+
+        // end if below
+      } else {
+        // moving to another card
+
+        let movedItem;
+        let remainingItems;
+        for (let key in originalArray) {
+          console.log("hey1");
+          if (originalArray.hasOwnProperty(key)) {
+            if (fromCard === originalArray[key].cid) {
+              // console.log("hey3");
+              changeableArray = originalArray[key].tasks;
+              // console.log("yup", changeableArray);
+              movedItem = changeableArray.filter(
+                (item, index) => index === event1.oldIndex
+              );
+              //console.log("hey4", movedItem);
+              remainingItems = changeableArray.filter(
+                (item, index) => index !== event1.oldIndex
+              );
+              console.log("remaining", remainingItems);
+              originalArray[key].tasks = remainingItems;
+              //originalArray
+              for (let key in originalArray) {
+                console.log("hey1");
+                if (originalArray.hasOwnProperty(key)) {
+                  if (toCard === originalArray[key].cid) {
+                    droppableArray = originalArray[key].tasks;
+                    console.log(droppableArray);
+                    console.log(movedItem);
+
+                    // const remainingDropItems = droppableArray.filter(
+                    //   (item, index) => index !== event1.newIndex
+                    // );
+
+                    const reorderedItems = [
+                      ...droppableArray.slice(0, event1.newIndex),
+                      movedItem[0],
+                      ...droppableArray.slice(event1.newIndex),
+                    ];
+
+                    console.log(reorderedItems);
+                    originalArray[key].tasks = reorderedItems;
+                    //originalArray
+                    break;
+                  }
+                }
+              }
+
+              break;
+            }
+          }
+        }
+
+        console.log("Final", originalArray);
+        chrome.storage.local.set({ [dbName]: originalArray }, function () {
+          // console.log(newCardorder);
+          setUnsavedChanges();
+        });
+      }
+    });
+  }
+
+  const reorderTaskArray = (event, originalArray) => {
+    const movedItem = originalArray.filter(
+      (item, index) => index === event.oldIndex
+    );
+    const remainingItems = originalArray.filter(
+      (item, index) => index !== event.oldIndex
+    );
+
+    const reorderedItems = [
+      ...remainingItems.slice(0, event.newIndex),
+      movedItem[0],
+      ...remainingItems.slice(event.newIndex),
+    ];
+
+    return reorderedItems;
+  };
 
   /* END */
   // ---------------------------------------------------------------------------------------------------------------------------

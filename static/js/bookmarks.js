@@ -135,7 +135,7 @@
   const newCardTemplate = ({ card_title, card_id, websites, starred }) => `
 
   <div
-  class="js__bookamrk_card relative bg-white shadow-md  h-25 ${
+  class="js__bookmark_card relative bg-white shadow-md  h-25 ${
     starred ? "starred border-t-4 border-red-300" : ""
   }" data-card="${card_id}" data-star="${starred}">
 
@@ -321,6 +321,107 @@ data-id="${bookmarks_id}">
           }
         }
 
+        const missionItems = [
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Follow on Twitter",
+            url: "https://twitter.com/surjithctly/",
+          },
+
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Submit an Issue or Feebback",
+            url: "https://github.com/surjithctly/mission-control/issues",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Review on Chrome Store",
+            url: "https://chrome.google.com/webstore/category/extensions",
+          },
+
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Github Repo",
+            url: "https://github.com/surjithctly/mission-control",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "View on Chrome Store",
+            url: "https://chrome.google.com/webstore/category/extensions",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Mission Control",
+            url: "https://mission-control.vercel.app/",
+          },
+        ];
+
+        const promotedItems = [
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Promote your Website here",
+            url:
+              "https://twitter.com/messages/compose?recipient_id=79699534&text=Hey%2C%20I%20would%20like%20to%20add%20my%20website%20as%20a%20Promoted%20Websites%20in%20Mission%20Control",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "TailwindCSS Web & UI Components",
+            url: "https://web3templates.com/components/?ref=mission_control",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Web3Templates - Free Website & Landing Page Templates",
+            url: "https://web3templates.com/?ref=mission_control",
+          },
+          {
+            date: new Date().getTime(),
+            desc: "",
+            id: randHex(24),
+            title: "Web3Forms - Contact forms without server",
+            url: "https://web3forms.com/?ref=mission_control",
+          },
+        ];
+
+        const missionCat = {
+          cid: randHex(24),
+          date: new Date().getTime(),
+          id: 1,
+          label: "Mission Control",
+          starred: false,
+          websites: missionItems,
+        };
+
+        const favCat = {
+          cid: randHex(24),
+          date: new Date().getTime(),
+          id: 0,
+          promoted: true,
+          label: "Promoted Websites",
+          starred: false,
+          websites: promotedItems,
+        };
+
+        storage[carddb].push(missionCat);
+        storage[carddb].push(favCat);
+
         chrome.storage.local.set(
           storage,
           function () {
@@ -441,7 +542,7 @@ data-id="${bookmarks_id}">
 
   $("#bookmark_cards").on("click", ".remove", function () {
     var chosenID = $(this).closest(".item").data("id");
-    var catID = $(this).closest(".js__bookamrk_card").data("card");
+    var catID = $(this).closest(".js__bookmark_card").data("card");
     removeItem(chosenID, catID);
     $(this).closest(".item").remove();
     console.log(chosenID, catID);
@@ -523,7 +624,7 @@ data-id="${bookmarks_id}">
         $("#addBookmarkform")[0].reset();
         toggleModal();
 
-        $('.js__bookamrk_card[data-card="' + catID + '"] .content').prepend(
+        $('.js__bookmark_card[data-card="' + catID + '"] .content').prepend(
           [
             {
               bookmarks_id: newItem.id,
@@ -588,7 +689,7 @@ data-id="${bookmarks_id}">
       );
 
       var $recentcard = $("#bookmark_cards").find(
-        '.js__bookamrk_card[data-card="' + newCat.cid + '"]'
+        '.js__bookmark_card[data-card="' + newCat.cid + '"]'
       );
       $recentcard.find(".js__card_title_text").addClass("hidden");
       $recentcard
@@ -636,7 +737,7 @@ data-id="${bookmarks_id}">
 
   $(document).on("click", ".js__add_bookmark", function (e) {
     e.preventDefault();
-    var catID = $(this).closest(".js__bookamrk_card").data("card");
+    var catID = $(this).closest(".js__bookmark_card").data("card");
     $("#addBookmarkform #category_id").val(catID);
     toggleModal();
   });
@@ -653,7 +754,7 @@ data-id="${bookmarks_id}">
   });
 
   $("#bookmark_cards").on("click", ".js__delete_card", function (e) {
-    var $this = $(this).closest(".js__bookamrk_card");
+    var $this = $(this).closest(".js__bookmark_card");
     var cardid = $($this).data("card");
     var totalsites = $(".item", $this).length;
     if (
@@ -686,7 +787,7 @@ data-id="${bookmarks_id}">
 
       chrome.storage.local.set({ [carddb]: siteList }, function () {
         console.log(siteList);
-        $('.js__bookamrk_card[data-card="' + cardid + '"]').remove();
+        $('.js__bookmark_card[data-card="' + cardid + '"]').remove();
         setUnsavedChanges();
       });
     });
@@ -695,13 +796,13 @@ data-id="${bookmarks_id}">
   //  RENAME CARD LABEL
 
   $("#bookmark_cards").on("click", ".js__rename_card", function (e) {
-    var $closestcard = $(this).closest(".js__bookamrk_card");
+    var $closestcard = $(this).closest(".js__bookmark_card");
     $closestcard.find(".js__card_title_text").addClass("hidden");
     $closestcard.find(".js__card_title_input").removeClass("hidden").focus();
   });
 
   $("#bookmark_cards").on("click", ".js__card_title_text", function (e) {
-    var $closestcard = $(this).closest(".js__bookamrk_card");
+    var $closestcard = $(this).closest(".js__bookmark_card");
     $closestcard.find(".js__card_title_text").addClass("hidden");
     $closestcard.find(".js__card_title_input").removeClass("hidden").focus();
   });
@@ -709,7 +810,7 @@ data-id="${bookmarks_id}">
   $("#bookmark_cards").on("keypress", ".js__card_title_input", function (e) {
     var cardtitle = $(this).val();
     var curcardval = $(this).next(".js__card_title_text").text();
-    var catid = $(this).closest(".js__bookamrk_card").data("card");
+    var catid = $(this).closest(".js__bookmark_card").data("card");
     if (e.which == 13 && cardtitle !== "") {
       e.preventDefault();
       if (curcardval !== cardtitle) {
@@ -727,7 +828,7 @@ data-id="${bookmarks_id}">
   $("#bookmark_cards").on("blur", ".js__card_title_input", function (e) {
     var cardtitle = $(this).val();
     var curcardval = $(this).next(".js__card_title_text").text();
-    var catid = $(this).closest(".js__bookamrk_card").data("card");
+    var catid = $(this).closest(".js__bookmark_card").data("card");
     if (curcardval !== cardtitle) {
       changeCardTitle(cardtitle, catid);
       console.log(cardtitle);
@@ -775,7 +876,7 @@ data-id="${bookmarks_id}">
 
   $("#bookmark_cards").on("click", ".js__star_card", function (e) {
     e.preventDefault();
-    var $closestcard = $(this).closest(".js__bookamrk_card");
+    var $closestcard = $(this).closest(".js__bookmark_card");
     var starred = $closestcard.attr("data-star");
     var catid = $closestcard.data("card");
     starredCard(starred, catid);
@@ -828,24 +929,24 @@ data-id="${bookmarks_id}">
     $input.on("input", function () {
       var term = $(this).val();
       console.log($context);
-      $context.find(".js__bookamrk_card .item").show().unmark();
-      $context.find(".js__bookamrk_card").show().unmark();
-      $context.find(".js__bookamrk_card").removeClass("category-matched");
+      $context.find(".js__bookmark_card .item").show().unmark();
+      $context.find(".js__bookmark_card").show().unmark();
+      $context.find(".js__bookmark_card").removeClass("category-matched");
       if (term) {
         $context.mark(term, {
           done: function () {
             const promise1 = new Promise((resolve, reject) => {
               $context
-                .find(".js__bookamrk_card .header p")
+                .find(".js__bookmark_card .header p")
                 .find("mark")
-                .closest(".js__bookamrk_card")
+                .closest(".js__bookmark_card")
                 .addClass("category-matched");
               resolve();
             });
 
             promise1.then(() => {
               $context
-                .find(".js__bookamrk_card:not(.category-matched)")
+                .find(".js__bookmark_card:not(.category-matched)")
                 .find(".item")
                 .not(":has(mark)")
                 .hide();
@@ -853,7 +954,7 @@ data-id="${bookmarks_id}">
               // expected output: "Success!"
             });
 
-            $context.find(".js__bookamrk_card").not(":has(mark)").hide();
+            $context.find(".js__bookmark_card").not(":has(mark)").hide();
 
             // $context.not(":has(mark)").hide();
           },
@@ -901,7 +1002,7 @@ data-id="${bookmarks_id}">
 
   var el = document.getElementById("bookmark_cards");
   var sortable = Sortable.create(el, {
-    draggable: ".js__bookamrk_card",
+    draggable: ".js__bookmark_card",
     filter: ".card__actions, .js__card_title_input",
     preventOnFilter: false,
     animation: 150,
@@ -938,7 +1039,7 @@ data-id="${bookmarks_id}">
         onEnd: function (evt) {
           $(".js_content").removeClass("disable__hover");
           console.log(evt);
-          console.log($(evt.to).closest(".js__bookamrk_card").data("card"));
+          console.log($(evt.to).closest(".js__bookmark_card").data("card"));
           console.log("newidex:" + evt.oldIndex);
           console.log("newidex:" + evt.newIndex);
         },
@@ -958,11 +1059,11 @@ data-id="${bookmarks_id}">
   $("#filter__site_cards button").on("click", function () {
     // do
     if ($(this).is("#filter__by_starred")) {
-      $(".js__bookamrk_card:not(.starred)").addClass("hidden");
+      $(".js__bookmark_card:not(.starred)").addClass("hidden");
       $("#filter__site_cards button").removeClass("toggle__active");
       $(this).addClass("toggle__active");
     } else {
-      $(".js__bookamrk_card").removeClass("hidden");
+      $(".js__bookmark_card").removeClass("hidden");
       $("#filter__site_cards button").removeClass("toggle__active");
       $(this).addClass("toggle__active");
     }

@@ -131,12 +131,12 @@
 }
 
 /* 
-.js__bookamrk_card::-webkit-scrollbar {
+.js__bookmark_card::-webkit-scrollbar {
     opacity: 0;
     display: none;
 } */
 
-/* .js__bookamrk_card:hover::-webkit-scrollbar {
+/* .js__bookmark_card:hover::-webkit-scrollbar {
     opacity: 1;
     display: initial;
 } */
@@ -186,7 +186,7 @@
   cursor: -webkit-grabbing;
 }
 
-.js__bookamrk_card:after,
+.js__bookmark_card:after,
 .js__tasks_card:after {
   content: "";
   width: 100%;
@@ -200,7 +200,7 @@
   transition: all ease 0.2s;
 }
 
-.js__bookamrk_card:hover:after,
+.js__bookmark_card:hover:after,
 .js__tasks_card:hover:after {
   opacity: 0;
 }
@@ -210,7 +210,7 @@
   transition: all ease 0.2s;
 }
 
-.js__bookamrk_card:hover .card__actions {
+.js__bookmark_card:hover .card__actions {
   opacity: 1;
 }
 
