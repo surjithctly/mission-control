@@ -4,8 +4,8 @@
   "description": "Chrome Extension",
   "main": "background.js",
   "scripts": {
-    "dev": "postcss ./static/css/style.css -o ./static/css/tailwind.css -w",
-    "build": "cross-env NODE_ENV=production postcss ./static/css/style.css -o ./static/css/tailwind.min.css "
+    "dev": "postcss ./static/css/tailwind.css -o ./static/css/style.css -w",
+    "build": "cross-env NODE_ENV=production postcss ./static/css/tailwind.css -o ./static/css/style.css"
   },
   "repository": {
     "type": "git",
