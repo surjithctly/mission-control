@@ -1,7 +1,7 @@
 {
     "name": "Mission Control - New Tab Launcher",
     "author": "Surjith S M",
-    "version": "1.0",
+    "version": "1.0.0",
     "description": "Make your new tab a launch console.",
     "permissions": ["storage", "tabs", "bookmarks", "topSites", "notifications", "alarms", "contextMenus", "activeTab", "unlimitedStorage", "downloads", "clipboardRead"],
     "host_permissions": [

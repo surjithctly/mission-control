@@ -338,7 +338,26 @@
                       </div> -->
 
                       ${tasks}
-                  </div>
+                      </div>
+
+<!-- Add new task below (Quick Add) -->
+<div class="flex flex-row align-middle items-middle items-center relative py-2 -mx-5 px-5  ">
+
+
+  <div
+      class="border block border-dashed border-gray-300 rounded-full w-6 h-6 flex-shrink-0  hover:bg-white">
+      &nbsp;
+  </div>
+
+    <input type="text" id="quick_add_task" placeholder="Add new Task" class="js__quick_add_task ml-3 text-lg flex-grow placeholder-gray-300 focus:outline-none"/>
+   
+
+
+</div>
+<!-- End Add Quick Task -->
+
+
+                
 
 
               </div>
@@ -466,6 +485,29 @@
   }
 
   /* END */
+
+  /*
+   * -----------------------------------------------------------------------------------
+   * // Quick ADD TASKS
+   * -----------------------------------------------------------------------------------
+   */
+
+  $("#task_cards").on("keypress", ".js__quick_add_task", function (e) {
+    var $closestcard = $(this).closest(".js__tasks_card");
+    var catID = $closestcard.data("card");
+    var title = $(this).val().trim();
+    var append = true;
+    if (e.which == 13 && title != "") {
+      console.log(title);
+      e.preventDefault();
+      addNewTask(title, 20, catID, append);
+      $(this).val("");
+      $(this).focus();
+    }
+  });
+
+  /* END */
+
   /*
    * -----------------------------------------------------------------------------------
    * // Form Submit to Add Tasks
@@ -475,42 +517,56 @@
 
   $("#addtaskform").on("submit", function (e) {
     e.preventDefault();
-    var title = $("#todo_title").val();
+    var title = $("#todo_title").val().trim();
     var task_time = $("#task_time :selected").val();
     var catID = $("#task_category_id").val();
     if (task_time != "" && title != "") {
       e.preventDefault();
 
-      var newItem = {
-        date: new Date().getTime(),
-        id: randHex(24),
-        title: title.trim(),
-        time: task_time,
-        completed: false,
-      };
+      addNewTask(title, task_time, catID);
+      $("#addtaskform")[0].reset();
+      toggleModal();
+      //   addItem(e);
+      //   console.log("You pressed enter!");
+    } else {
+      alert("Fill all details");
+    }
+  });
 
-      chrome.storage.local.get([dbName], function (storage) {
-        var tasksList = storage[dbName];
-        //bookmarks.push(newItem);
+  function addNewTask(title, task_time, catID, append) {
+    console.log("running add new task", title, task_time, catID);
+    var newItem = {
+      date: new Date().getTime(),
+      id: randHex(24),
+      title: title,
+      time: task_time || 20,
+      completed: false,
+    };
 
-        for (let key in tasksList) {
-          if (tasksList.hasOwnProperty(key)) {
-            if (catID === tasksList[key].cid) {
-              if (tasksList[key].tasks) {
-                console.log("tasks found in this cat");
-                // add item in the top
+    chrome.storage.local.get([dbName], function (storage) {
+      var tasksList = storage[dbName];
+      //bookmarks.push(newItem);
+
+      for (let key in tasksList) {
+        if (tasksList.hasOwnProperty(key)) {
+          if (catID === tasksList[key].cid) {
+            if (tasksList[key].tasks) {
+              console.log("tasks found in this cat");
+              // add item in the top
+              if (append) {
+                tasksList[key].tasks.push(newItem);
+              } else {
                 tasksList[key].tasks.unshift(newItem);
               }
-              break;
             }
+            break;
           }
         }
+      }
 
-        //reset value
-        $("#addtaskform")[0].reset();
-        toggleModal();
-
-        $('.js__tasks_card[data-card="' + catID + '"] .content').prepend(
+      //reset value
+      if (append) {
+        $('.js__tasks_card[data-card="' + catID + '"] .js_content').append(
           [
             {
               task_id: newItem.id,
@@ -521,22 +577,29 @@
             .map(TaskTemplate)
             .join("")
         );
+      } else {
+        $('.js__tasks_card[data-card="' + catID + '"] .js_content').prepend(
+          [
+            {
+              task_id: newItem.id,
+              task_title: newItem.title,
+              task_completed: newItem.completed ? "completed" : "active",
+            },
+          ]
+            .map(TaskTemplate)
+            .join("")
+        );
+      }
 
-        // $("#bookmarkMoreForm").addClass("hidden");
+      // $("#bookmarkMoreForm").addClass("hidden");
 
-        chrome.storage.local.set({ [dbName]: tasksList }, function () {
-          // console.log(siteList);
-          // console.log("running submit");
-          setUnsavedChanges();
-        });
+      chrome.storage.local.set({ [dbName]: tasksList }, function () {
+        // console.log(siteList);
+        // console.log("running submit");
+        setUnsavedChanges();
       });
-
-      //   addItem(e);
-      //   console.log("You pressed enter!");
-    } else {
-      alert("Fill all details");
-    }
-  });
+    });
+  }
 
   /* END */
 

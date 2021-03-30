@@ -29,6 +29,34 @@
     chrome.tabs.create(opts, handleCallback);
   }
 
+  // Open on New Tab
+  // So give users a chance to use other New Tab
+
+  // chrome.tabs.onCreated.addListener(function (tab) {
+  //   // Only redirect if this is a blank new tab (not opened by clicking a link).
+
+  //   setTimeout(() => {
+  //     console.log(tab);
+  //     if ((tab.pendingUrl || tab.url) === "chrome://newtab/") {
+  //       // Show your website. This might highlight the omnibox,
+  //       console.log("this");
+  //       // but it's not guaranteed.
+  //       chrome.tabs.update(
+  //         tab.id,
+  //         {
+  //           url: chrome.runtime.getURL("index.html"),
+  //         },
+  //         handleCallback
+  //       );
+  //       console.log("here");
+  //     }
+  //   }, 100);
+  // });
+
+  // function handleCallback(window) {
+  //   console.log("done");
+  // }
+
   chrome.alarms.create({ delayInMinutes: 0.1 });
   console.log("alarn");
 
@@ -36,7 +64,7 @@
     console.log("alarm run");
     if (chrome.notifications) {
       console.log("yup run");
-      show();
+      //show();
     }
   });
 
