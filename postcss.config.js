@@ -1,16 +1,7 @@
-if (process.env.NODE_ENV === "production") {
-  module.exports = {
-    plugins: {
-      "@tailwindcss/jit": {},
-      autoprefixer: {},
-      cssnano: {},
-    },
-  };
-} else {
-  module.exports = {
-    plugins: {
-      "@tailwindcss/jit": {},
-      autoprefixer: {},
-    },
-  };
-}
+module.exports = {
+  plugins: {
+    "@tailwindcss/jit": {},
+    autoprefixer: {},
+    [process.env.NODE_ENV === "production" ? "cssnano" : ""]: {},
+  },
+};
