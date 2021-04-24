@@ -1,2 +1,4 @@
 # mission-control
-Mission Control - New Tab Launcher Chrome Extension
+Mission Control - New Tab Chrome Extension
+
+Visit: https://mission-control.app‬/
