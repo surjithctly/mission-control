@@ -438,11 +438,10 @@
 
   function addCardLists(task) {
     var tasklist = "";
-    // console.log("task");
-    for (var i = 0; i < task.length; i++) {
-      //addSiteCards(cardarray[i]);
-      tasklist =
-        tasklist +
+    
+    for (var i = 0; i < task.length; i++) { 
+        if (!task[i]?.id) { continue ; }
+      tasklist =   tasklist +
         [
           {
             task_id: task[i].id,
@@ -452,7 +451,7 @@
         ]
           .map(TaskTemplate)
           .join("");
-    }
+    } 
     return tasklist;
   }
 

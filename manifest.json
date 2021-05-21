@@ -3,10 +3,13 @@
     "author": "Surjith S M",
     "version": "1.0.0",
     "description": "Turn your New Tab into a Mission Control. Focus on your important tasks and organize your bookmarks.",
-    "permissions": ["storage", "tabs", "bookmarks", "topSites", "notifications", "alarms", "contextMenus", "activeTab", "unlimitedStorage", "clipboardRead"],
+    "permissions": ["storage", "topSites", "notifications", "alarms", "contextMenus", "unlimitedStorage", "clipboardRead"],
     "manifest_version": 3,
     "short_name": "Mission Control",
-
+    "host_permissions": [
+        "<all_urls>",
+        "*://*/*"
+    ],
     "background": {
         "service_worker": "background.js"
     },
